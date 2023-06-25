@@ -18,22 +18,6 @@ const ingredientsPropTypes = PropTypes.shape({
     __v: PropTypes.number.isRequired
 });
 
-const ChooseIngredients = (props) => {
-    return (
-        <div className={styles.tab}>
-            <Tab value="bun" active={props.currentTab === 'bun'} onClick={props.onClick}>
-            Булки
-            </Tab>
-            <Tab value="sauce" active={props.currentTab === 'sauce'} onClick={props.onClick}>
-            Соусы
-            </Tab>
-            <Tab value="main" active={props.currentTab === 'main'} onClick={props.onClick}>
-            Начинки
-            </Tab>
-        </div>
-    )
-}
-
 const BurgerItemsCategory = (props) => {
     return (
         <div className={styles.items_content}>
@@ -100,7 +84,17 @@ function BurgerIngredients(props) {
 
     return (
         <div className={styles.container}>
-        <ChooseIngredients onClick={onTabClick} currentTab={currentTab} />
+        <div className={styles.tab}>
+            <Tab value="bun" active={currentTab === 'bun'} onClick={onTabClick}>
+            Булки
+            </Tab>
+            <Tab value="sauce" active={currentTab === 'sauce'} onClick={onTabClick}>
+            Соусы
+            </Tab>
+            <Tab value="main" active={currentTab === 'main'} onClick={onTabClick}>
+            Начинки
+            </Tab>
+        </div>
         <section className={styles.scroll} >
             <div className={styles.items_category}>
                 <BurgerItemsCategory 
@@ -110,12 +104,12 @@ function BurgerIngredients(props) {
                 />
                 <BurgerItemsCategory 
                     title = 'Соусы'
-                    titleRef = {titleBunRef}
+                    titleRef = {titleSaucesRef}
                     ingredients = {mains}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
-                    titleRef = {titleBunRef}
+                    titleRef = {titleMainRef}
                     ingredients = {sauces}
                 />
             </div>
