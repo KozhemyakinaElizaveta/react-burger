@@ -1,0 +1,22 @@
+.final{
+    display: flex;
+    flex-direction:column;
+}
+
+.construct{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result{
+    display: flex;
+    justify-content: flex-end;
+    justify-items: center;
+}
+
+.cost{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

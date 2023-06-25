@@ -1,0 +1,25 @@
+.header{
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 88px;
+    width: 100%;
+}
+.left{
+    display: inline-flex;
+    flex: 1;
+    justify-content: center;
+}
+.buttons{
+    display: flex;
+}
+.right{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+.logo{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
