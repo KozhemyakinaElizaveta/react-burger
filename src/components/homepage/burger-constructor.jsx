@@ -1,10 +1,10 @@
-import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 
 const GetConstructor = (props) => {
     return (
         <div className={styles.construct}>
-            <div className={styles.element}>
+            <div className={`${styles.element_bun} ml-8`}>
                 <ConstructorElement
                     type="top"
                     isLocked={true}
@@ -14,13 +14,14 @@ const GetConstructor = (props) => {
                 />
             </div>
             <div className={styles.element}>
+                <DragIcon type="primary" />
                 <ConstructorElement
-                    text="Краторная булка N-200i (верх)"
+                    text="Говяжий метеорит (отбивная)"
                     price={50}
                     thumbnail={props.children}
                 />
             </div>
-            <div className={styles.element}>
+            <div className={`${styles.element_bun} ml-8`}>
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
