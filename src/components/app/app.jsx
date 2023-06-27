@@ -1,7 +1,8 @@
-import AppHeader from '../homepage/header.jsx';
+import AppHeader from '../header/header.jsx';
 import styles from './app.module.css';
-import BurgerIngredients from '../homepage/burger-ingredients.jsx';
-import BurgerConstructor from '../homepage/burger-constructor.jsx';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
+import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import {date} from '../../utils/date.js'
 
 
@@ -15,7 +16,7 @@ function App() {
           <BurgerIngredients ingredients={date}/>
         </div>
         <div className={`${styles.structure} ml-5 mt-25`}>
-          <BurgerConstructor/>
+          <BurgerConstructor></BurgerConstructor>
         </div>
       </main>
     </div>

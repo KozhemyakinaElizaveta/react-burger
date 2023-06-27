@@ -1,57 +1,12 @@
 import styles from './burger-ingredients.module.css';
-import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-
-const ingredientsPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired
-});
-
-const BurgerItemsCategory = (props) => {
-    return (
-        <div className={styles.items_content}>
-            <h2 ref={props.titleRef} className={`${styles.title} text text_type_main-medium mt-10`}>{props.title}</h2>
-            <div className={styles.items}>
-                <BurgerItems items = {props.ingredients}/>
-            </div>
-        </div>
-    );
-};
-
-const GetItems = ({ingredient}) => {
-    return (
-        <div className={`${styles.pick} mt-6 mb-2 mr-4 ml-4`} >
-            <img className={styles.image} src={ingredient.image_large} alt="" />
-            <div className={`${styles.price} text text_type_digits-default mt-1 mb-1`}>
-                {ingredient.price}
-                <CurrencyIcon type="primary"/>
-            </div>
-            <p className={`${styles.name} text text_type_main-default`}>{ingredient.name}</p>
-        </div>
-    );
-};
-
-const BurgerItems = (props) => (props.items.map(ingredient => (
-    <GetItems key={ingredient._id} ingredient={ingredient}/>
-)));
-
-GetItems.propTypes = {
-    ingredient: ingredientsPropTypes.isRequired
-};
+import ingredientsPropTypes from '../../utils/prop-types.js';
+import BurgerItemsCategory from './burger-ingredients-category.jsx';
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired
+    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
 };
 
 function BurgerIngredients(props) {
