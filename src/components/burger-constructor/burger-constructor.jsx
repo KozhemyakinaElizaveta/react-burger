@@ -1,5 +1,10 @@
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
+import { Modal } from '../modal/modal.jsx';
+import { useState, KeyboardEvent} from "react";
+import {OrderDetails} from '../modal/order-details.jsx';
+// import useEscapeKey from '../modal/use-esc';
+// import useOutsideClick from '../modal/use-outside-click';
 
 const ConstructorIngredient = () => (
     <div className={styles.element}>
@@ -13,6 +18,8 @@ const ConstructorIngredient = () => (
 );
 
 function BurgerConstructor() {
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <div className={styles.final}>
             <div className={styles.construct}>
@@ -42,9 +49,12 @@ function BurgerConstructor() {
                     666</div>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="medium">
+                <Button htmlType="button" type="primary" size="medium" onClick={() => setShowModal(true)} >
                 Оформить заказ
                 </Button>
+                <Modal showModal={showModal}>
+                    <OrderDetails  handleClose={() => setShowModal(false)}>034536</OrderDetails>
+                </Modal>
             </section>
         </div>
     );

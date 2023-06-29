@@ -1,0 +1,22 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.number{
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+}
+
+.icon {
+    cursor: pointer;
+}

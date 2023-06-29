@@ -1,0 +1,27 @@
+.button{
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.value{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contain{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

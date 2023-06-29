@@ -4,6 +4,7 @@ import ingredientsPropTypes from '../../utils/prop-types.js';
 import styles from './burger-ingredients.module.css';
 
 const BurgerItemsCategory = (props) => {
+
     return (
         <div className={styles.items_content}>
             <h2 ref={props.titleRef} className={`${styles.title} text text_type_main-medium mt-10`}>{props.title}</h2>
