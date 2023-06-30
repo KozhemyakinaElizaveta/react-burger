@@ -1,31 +1,43 @@
 import styles from './modal.module.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
+import ModalOverlay from './modal-overlay';
 
-export const Modal = ({ children, showModal}) => {
-    const [mounted, setMounted] = useState(false);
+const modalRoot = document.getElementById("portal-root");
+
+export const Modal = ({ children, onClose}) => {
+    // const [mounted, setMounted] = useState(false);
+    const modalRef = useRef(null);
+
+    
+    const closeModal = () => {
+        onClose();
+    };
+    
+    const handleKeyDown = (event) => {
+        if (event.keyCode === 27 && onClose) {
+            closeModal();
+            console.log("clicked escape");
+        }
+    };
     
     useEffect(() => {
-        setMounted(true);
-        return () => setMounted(false);
-    }, []);
-    
-    const modalContent = showModal ? (
-        <div className={styles.modal_container}>
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+    };
+    }, [handleKeyDown]);
+
+    return ReactDOM.createPortal(
+    <>
+        <ModalOverlay closeModal={closeModal} modalRef={modalRef}>
             <div className={styles.modal_content}>
                 {children}
             </div>
-        </div>
-    ) : null;
-    
-    if (mounted) {
-        return ReactDOM.createPortal(
-        modalContent,
-        document.getElementById("portal-root")
-        );
-    } else {
-        return null;
-    }
+        </ModalOverlay>
+    </>,
+    modalRoot
+    );
 };
 
 export default Modal;
