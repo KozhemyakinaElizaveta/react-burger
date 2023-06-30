@@ -2,12 +2,12 @@ import styles from './order-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import done from '../../images/done.png';
 
-export function OrderDetails({children, handleClose}) {
+export function OrderDetails({children, onClose}) {
     return(
         <>
         <div className={`${styles.button} mr-10 mt-15`}>
             <div className={styles.icon}>
-                <CloseIcon type="primary" onClick={handleClose}/>
+                <CloseIcon type="primary" onClick={onClose}/>
             </div>
         </div>
         <div className={styles.main}>

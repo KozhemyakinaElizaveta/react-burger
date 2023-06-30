@@ -60,12 +60,12 @@ function BurgerIngredients(props) {
                 <BurgerItemsCategory 
                     title = 'Соусы'
                     titleRef = {titleSaucesRef}
-                    ingredients = {mains}
+                    ingredients = {sauces}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
                     titleRef = {titleMainRef}
-                    ingredients = {sauces}
+                    ingredients = {mains}
                 />
             </div>
         </section>

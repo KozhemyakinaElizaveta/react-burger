@@ -52,9 +52,9 @@ function BurgerConstructor() {
                 <Button htmlType="button" type="primary" size="medium" onClick={() => setShowModal(true)} >
                 Оформить заказ
                 </Button>
-                <Modal onClose = {() => setShowModal(false)}>
-                    <OrderDetails  handleClose={() => setShowModal(false)}>034536</OrderDetails>
-                </Modal>
+                {showModal && <Modal onClose = {() => setShowModal(false)}>
+                    <OrderDetails  onClose={() => setShowModal(false)}>034536</OrderDetails>
+                </Modal>}
             </section>
         </div>
     );
