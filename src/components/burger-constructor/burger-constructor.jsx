@@ -2,7 +2,7 @@ import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktiku
 import styles from './burger-constructor.module.css';
 import { Modal } from '../modal/modal.jsx';
 import { useState} from "react";
-import {OrderDetails} from '../modal/order-details.jsx';
+import {OrderDetails} from '../order-details/order-details.jsx';
 // import useEscapeKey from '../modal/use-esc';
 // import useOutsideClick from '../modal/use-outside-click';
 

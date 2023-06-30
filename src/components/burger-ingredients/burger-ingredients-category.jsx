@@ -4,7 +4,7 @@ import ingredientsPropTypes from '../../utils/prop-types.js';
 import styles from './burger-ingredients.module.css';
 import { Modal } from '../modal/modal.jsx';
 import { useState} from "react";
-import { IngredientDetails } from '../modal/ingredient-details.jsx';
+import { IngredientDetails } from '../ingredient-details/ingredient-details.jsx';
 
 const BurgerItemsCategory = (props) => {
     const [showModal, setShowModal] = useState(false);

@@ -6,10 +6,6 @@ import ModalOverlay from './modal-overlay';
 const modalRoot = document.getElementById("portal-root");
 
 export const Modal = ({ children, onClose}) => {
-    // const [mounted, setMounted] = useState(false);
-    const modalRef = useRef(null);
-
-    
     const closeModal = () => {
         onClose();
     };
@@ -30,11 +26,12 @@ export const Modal = ({ children, onClose}) => {
 
     return ReactDOM.createPortal(
     <>
-        <ModalOverlay closeModal={closeModal} modalRef={modalRef}>
+        <ModalOverlay onClick ={closeModal}/>
+        <div className={styles.modal_container}>
             <div className={styles.modal_content}>
                 {children}
             </div>
-        </ModalOverlay>
+        </div>
     </>,
     modalRoot
     );
