@@ -1,7 +1,7 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-//не понимаю, почему булки не рендерятся
 function ConstructorBun (props) {
+    return(
     <div className={`${styles.element_bun} ml-8`}>
         {props.type === 'top' &&
         <ConstructorElement
@@ -20,5 +20,6 @@ function ConstructorBun (props) {
             thumbnail={props.bun.image_mobile}
         />}
     </div>
+    )
 }
 export default ConstructorBun;
