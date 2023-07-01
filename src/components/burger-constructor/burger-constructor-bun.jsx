@@ -1,6 +1,6 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-
+//не понимаю, почему булки не рендерятся
 function ConstructorBun (props) {
     <div className={`${styles.element_bun} ml-8`}>
         {props.type === 'top' &&

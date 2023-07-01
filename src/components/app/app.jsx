@@ -35,11 +35,12 @@ function App() {
     fetch(`${BURGER_API_URL}/ingredients`)
       .then(res => checkResponse(res))
       .then(res => checkSuccess(res))
-      .then(data => setState({ ...state, data: data.data, isLoading: false}))
+      .then(data => setState((prev) => ({ ...prev, data: data.data})))
       .catch(e => {
-        setState({ ...state, hasError: true, isLoading: false })
+        setState((prev) => ({ ...prev, hasError: true}))
         return(console.log(e))
-      });
+      })
+      .finally (() => setState((prev) => ({ ...prev, isLoading: false})));
   };
 
   useEffect(() => {
