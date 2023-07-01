@@ -1,7 +1,8 @@
 import styles from './modal.module.css';
-import { useState, useEffect, useRef } from "react";
+import {useEffect } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from './modal-overlay';
+import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById("portal-root");
 
@@ -10,19 +11,19 @@ export const Modal = ({ children, onClose}) => {
         onClose();
     };
     
-    const handleKeyDown = (event) => {
-        if (event.keyCode === 27 && onClose) {
-            closeModal();
-            console.log("clicked escape");
-        }
-    };
-    
     useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-        document.removeEventListener("keydown", handleKeyDown);
-    };
-    }, [handleKeyDown]);
+        const handleKeyDown = (event) => {
+            if (event.keyCode === 27 && onClose) {
+                closeModal();
+                console.log("clicked escape");
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    });
 
     return ReactDOM.createPortal(
     <>
@@ -36,5 +37,10 @@ export const Modal = ({ children, onClose}) => {
     modalRoot
     );
 };
+
+Modal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired
+}
 
 export default Modal;

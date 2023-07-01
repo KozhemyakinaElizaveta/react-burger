@@ -1,8 +1,9 @@
 import styles from './order-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import done from '../../images/done.png';
+import PropTypes from 'prop-types';
 
-export function OrderDetails({children, onClose}) {
+export function OrderDetails({number, onClose}) {
     return(
         <>
         <div className={`${styles.button} mr-10 mt-15`}>
@@ -11,7 +12,7 @@ export function OrderDetails({children, onClose}) {
             </div>
         </div>
         <div className={styles.main}>
-            <span className={`${styles.number} text text_type_digits-large mt-10`}>{children}</span>
+            <span className={`${styles.number} text text_type_digits-large mt-10`}>{number}</span>
             <span className={`${styles.text} text text_type_main-medium mt-8 mb-15`}>идентификатор заказа</span>
             <img src={done} alt=''></img>
             <span className={`${styles.text} text text_type_main-default mt-15`}>Ваш заказ начали готовить</span>
@@ -19,6 +20,10 @@ export function OrderDetails({children, onClose}) {
         </div>
         </>
     )
+}
+OrderDetails.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    number: PropTypes.string.isRequired
 }
 
 export default OrderDetails;

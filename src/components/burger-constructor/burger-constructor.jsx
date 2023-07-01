@@ -1,47 +1,37 @@
-import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import { Modal } from '../modal/modal.jsx';
-import { useState} from "react";
+import { useState, useMemo} from "react";
 import {OrderDetails} from '../order-details/order-details.jsx';
-// import useEscapeKey from '../modal/use-esc';
-// import useOutsideClick from '../modal/use-outside-click';
+import ConstructorBun from './burger-constructor-bun';
+import ConstructorIngredient from './burger-constructor-ingredient';
+import PropTypes from 'prop-types';
+import ingredientsPropTypes from '../../utils/prop-types.js';
 
-const ConstructorIngredient = () => (
-    <div className={styles.element}>
-        <DragIcon type="primary" />
-        <ConstructorElement
-            text="Говяжий метеорит (отбивная)"
-            price={50}
-            thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-        />
-    </div>
-);
+BurgerConstructor.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
+};
 
-function BurgerConstructor() {
+function BurgerConstructor(props) {
     const [showModal, setShowModal] = useState(false);
+
+    const { bun, ingredient } = useMemo(() => {
+        return {
+            bun: props.ingredients.find(item => item.type === 'bun'),
+            ingredient: props.ingredients.filter(item => item.type !== 'bun'),
+        };
+    }, [props.ingredients]);
 
     return (
         <div className={styles.final}>
             <div className={styles.construct}>
-                <div className={`${styles.element_bun} ml-8`}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-                    />
+                <ConstructorBun bun={bun} type='top'/>
+                <div className={styles.ingredients}>
+                {ingredient.map((element) => (
+                    <ConstructorIngredient element={element} key={element._id}/>
+                ))}
                 </div>
-                <ConstructorIngredient></ConstructorIngredient>
-                <div className={`${styles.element_bun} ml-8`}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-                    />
-                </div>
+                <ConstructorBun bun={bun} type='bottom'/>
             </div>
             <section className={`${styles.result} mt-10`}>
                 <div className={`${styles.cost} mr-10`}>
@@ -53,7 +43,7 @@ function BurgerConstructor() {
                 Оформить заказ
                 </Button>
                 {showModal && <Modal onClose = {() => setShowModal(false)}>
-                    <OrderDetails  onClose={() => setShowModal(false)}>034536</OrderDetails>
+                    <OrderDetails  onClose={() => setShowModal(false)} number='034536'/>
                 </Modal>}
             </section>
         </div>

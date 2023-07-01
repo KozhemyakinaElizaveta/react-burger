@@ -3,6 +3,7 @@ import styles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import { useState, useEffect } from 'react';
+import { BURGER_API_URL } from '../../utils/const.js';
 //import {date} from '../../utils/date.js'
 
 
@@ -14,17 +15,31 @@ function App() {
     data: []
   });
 
-  const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
+  const checkResponse = (res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+  };
+
+  const checkSuccess = (res) => {
+    if (res && res.success) {
+      return res;
+    }
+    return Promise.reject(`Ответ не success: ${res}`);
+  };
 
   const getData = () => {
     setState({ ...state, hasError: false, isLoading: true });
 
-    fetch(apiUrl)
-      .then(res => res.json())
-      .then(data => setState({ ...state, data: data.data, isLoading: false }))
+    fetch(`${BURGER_API_URL}/ingredients`)
+      .then(res => checkResponse(res))
+      .then(res => checkSuccess(res))
+      .then(data => setState({ ...state, data: data.data, isLoading: false}))
       .catch(e => {
-      setState({ ...state, hasError: true, isLoading: false });
-    });
+        setState({ ...state, hasError: true, isLoading: false })
+        return(console.log(e))
+      });
   };
 
   useEffect(() => {
@@ -33,13 +48,17 @@ function App() {
 
   const { data, isLoading, hasError } = state;
 
+  if(isLoading) {
+    return <>Загрузка...</>;
+  }
+  
+  if (hasError) {
+    return <>Произошла ошибка!</>;
+  }
+
   return (
     <div className={styles.app}> 
-      {isLoading && console.log('Загрузка...')}
-      {hasError && console.log('Произошла ошибка')} 
-      {!isLoading &&
-      !hasError &&
-      data.length && (
+      {!!data.length && (
         <>
         <AppHeader/>
         <main className={`${styles.main} pr-5 pl-5`}>
@@ -48,7 +67,7 @@ function App() {
             <BurgerIngredients ingredients={data}/>
           </div>
           <div className={`${styles.structure} ml-5 mt-25`}>
-          <BurgerConstructor/>
+          <BurgerConstructor ingredients={data}/>
           </div>
         </main>
         </>

@@ -4,7 +4,7 @@ import styles from './burger-ingredients.module.css';
 
 
 
-const BurgerIngredientsItem = ({ingredient, setSelectedIngredient, key, setShowModal}) => {
+const BurgerIngredientsItem = ({ingredient, setSelectedIngredient, setShowModal}) => {
 
     return (
         <div className={`${styles.pick} mt-6 mb-2 mr-4 ml-4`}  onClick={() => {
