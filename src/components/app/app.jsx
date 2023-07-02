@@ -4,7 +4,6 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import { useState, useEffect } from 'react';
 import { BURGER_API_URL } from '../../utils/const.js';
-//import {date} from '../../utils/date.js'
 
 
 

@@ -18,7 +18,7 @@ const BurgerItemsCategory = (props) => {
                     <BurgerIngredientsItem setSelectedIngredient={setSelectedIngredient} key={ingredient._id} ingredient={ingredient} setShowModal={setShowModal}/>
                 ))}
             </div>
-            {showModal && <Modal showModal={showModal} onClose={() =>  setShowModal(false)}>
+            {showModal && <Modal showModal={showModal} onClose={() =>  setShowModal(false)} title = 'Детали ингредиента'>
                 <IngredientDetails selectedIngredient = {selectedIngredient} showModal={showModal} onClose={() =>  setShowModal(false)}></IngredientDetails>
             </Modal>}
         </div>

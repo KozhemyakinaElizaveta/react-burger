@@ -5,10 +5,6 @@ import PropTypes from 'prop-types';
 import ingredientsPropTypes from '../../utils/prop-types.js';
 import BurgerItemsCategory from './burger-ingredients-category.jsx';
 
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
-};
-
 function BurgerIngredients(props) {
     const [currentTab, setCurrentTab] = React.useState('bun')
     const titleBunRef = useRef(null);
@@ -72,5 +68,9 @@ function BurgerIngredients(props) {
         </div>
     );
 }
+
+BurgerIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
+};
 
 export default BurgerIngredients;

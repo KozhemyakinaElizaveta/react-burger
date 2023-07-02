@@ -1,16 +1,18 @@
-import ingredientsPropTypes from '../../utils/prop-types.js';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-
+import PropTypes from 'prop-types';
+import ingredientsPropTypes from '../../utils/prop-types.js';
 
 
 const BurgerIngredientsItem = ({ingredient, setSelectedIngredient, setShowModal}) => {
 
+    function getSet (item, bool) {
+        setSelectedIngredient(item)
+        setShowModal(bool)
+    };
+
     return (
-        <div className={`${styles.pick} mt-6 mb-2 mr-4 ml-4`}  onClick={() => {
-            setSelectedIngredient(ingredient)
-            setShowModal(true)
-        }}>
+        <div className={`${styles.pick} mt-6 mb-2 mr-4 ml-4`}  onClick={() => getSet(ingredient, true)}>
             <img className={styles.image} src={ingredient.image} alt="" />
             <div className={`${styles.price} text text_type_digits-default mt-1 mb-1`}>
                 {ingredient.price}
@@ -22,7 +24,9 @@ const BurgerIngredientsItem = ({ingredient, setSelectedIngredient, setShowModal}
 };
 
 BurgerIngredientsItem.propTypes = {
-    ingredient: ingredientsPropTypes.isRequired
+    ingredient: ingredientsPropTypes.isRequired,
+    setSelectedIngredient: PropTypes.func.isRequired,
+    setShowModal: PropTypes.func.isRequired
 };
 
 export default BurgerIngredientsItem;
