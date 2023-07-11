@@ -5,8 +5,14 @@ import styles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import { getIngredients } from "../../services/actions/ingredients-action";
-
-
+import Modal from '../modal/modal.jsx';
+import {
+  CLOSE_MODAL_INGREDIENT,
+  NO_INGREDIENT,
+} from "../../services/actions/ingredient-details-action";
+// import { CLOSE_ORDER_DETAILS_MODAL } from "../../services/actions/order-details";
+import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
+// import { OrderDetails } from "../order-details/order-details";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,6 +20,27 @@ function App() {
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
+
+  const ingredientDetailsModal = useSelector(
+    (state) => state.ingredientDetails.openModal
+  );
+
+  // const orderDetailsModal = useSelector(
+  //   (state) => state.orderDetails.openModal
+  // );
+
+  // const REQUEST = useSelector(
+  //   (state) => state.orderDetails.makeOrderRequestInProgress
+  // );
+
+  function closeIngredientDetailsModal() {
+    dispatch({ type: CLOSE_MODAL_INGREDIENT });
+    dispatch({ type: NO_INGREDIENT });
+  }
+
+  // function closeOrderDetailsModal() {
+  //   dispatch({ type: CLOSE_ORDER_DETAILS_MODAL });
+  // }
 
   return (
     <div className={styles.app}> 
@@ -28,6 +55,9 @@ function App() {
           <BurgerConstructor ingredients={data}/>
           </div> */}
         </main>
+        {ingredientDetailsModal && <Modal onClose={closeIngredientDetailsModal} title = 'Детали ингредиента'>
+          <IngredientDetails />
+        </Modal>}
       </>
     </div>
   );
