@@ -1,11 +1,12 @@
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
-import ingredientsPropTypes from '../../utils/prop-types.js';
+import React, { useMemo, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import BurgerItemsCategory from './burger-ingredients-category.jsx';
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
+    const { ingredients } = useSelector((state) => state.burgerIngredients);
+    const dispatch = useDispatch();
     const [currentTab, setCurrentTab] = React.useState('bun')
     const titleBunRef = useRef(null);
     const titleMainRef = useRef(null);
@@ -18,19 +19,38 @@ function BurgerIngredients(props) {
         if (tab === "sauce") titleSaucesRef.current?.scrollIntoView({behavior: "smooth"})
     };
 
+    function onScroll(event) {
+        const scrolling = event.target.scrollTop;
+    
+        const sauceScrolling =
+            titleSaucesRef.current.getBoundingClientRect().top -
+            titleBunRef.current.getBoundingClientRect().top;
+        const mainScrolling =
+            titleMainRef.current.getBoundingClientRect().top -
+            titleBunRef.current.getBoundingClientRect().top;
+    
+        if (scrolling > mainScrolling) {
+            setCurrentTab("main");
+        } else if (scrolling <= sauceScrolling) {
+            setCurrentTab("bun");
+        } else {
+            setCurrentTab("sauce");
+        }
+    }
+
     const buns = useMemo(
-        () => props.ingredients.filter((item) => item.type === "bun"),
-        [props.ingredients]
+        () => ingredients.filter((item) => item.type === "bun"),
+        [ingredients]
     );
 
     const mains = useMemo(
-        () => props.ingredients.filter((item) => item.type === "main"),
-        [props.ingredients]
+        () => ingredients.filter((item) => item.type === "main"),
+        [ingredients]
     );
 
     const sauces = useMemo(
-        () => props.ingredients.filter((item) => item.type === "sauce"),
-        [props.ingredients]
+        () => ingredients.filter((item) => item.type === "sauce"),
+        [ingredients]
     );
 
     return (
@@ -47,7 +67,7 @@ function BurgerIngredients(props) {
             </Tab>
         </div>
         <section className={styles.scroll} >
-            <div className={styles.items_category}>
+            <div className={styles.items_category} onScroll={onScroll}>
                 <BurgerItemsCategory 
                     title = 'Булки'
                     titleRef = {titleBunRef}
@@ -68,9 +88,5 @@ function BurgerIngredients(props) {
         </div>
     );
 }
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
-};
 
 export default BurgerIngredients;

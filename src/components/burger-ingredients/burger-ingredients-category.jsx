@@ -5,16 +5,18 @@ import styles from './burger-ingredients.module.css';
 import { Modal } from '../modal/modal.jsx';
 import { useState} from "react";
 import { IngredientDetails } from '../ingredient-details/ingredient-details.jsx';
+import { forwardRef } from "react";
 
-const BurgerItemsCategory = (props) => {
+const BurgerItemsCategory = forwardRef(
+    ({ title, ingredients }, titleRef) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
 
     return (
         <div className={styles.items_content}>
-            <h2 ref={props.titleRef} className={`${styles.title} text text_type_main-medium mt-10`}>{props.title}</h2>
+            <h2 ref={titleRef} className={`${styles.title} text text_type_main-medium mt-10`}>{title}</h2>
             <div className={styles.items}>
-                {props.ingredients.map(ingredient => (
+                {ingredients.map(ingredient => (
                     <BurgerIngredientsItem setSelectedIngredient={setSelectedIngredient} key={ingredient._id} ingredient={ingredient} setShowModal={setShowModal}/>
                 ))}
             </div>
@@ -23,7 +25,8 @@ const BurgerItemsCategory = (props) => {
             </Modal>}
         </div>
     );
-};
+}
+);
 
 BurgerItemsCategory.propTypes = {
     title: PropTypes.string.isRequired,
