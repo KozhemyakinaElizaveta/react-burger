@@ -1,6 +1,6 @@
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BurgerItemsCategory from './burger-ingredients-category.jsx';
 import { useInView } from "react-intersection-observer";
@@ -33,6 +33,10 @@ function BurgerIngredients() {
         [ingredients]
     );
 
+    const GetRefFor = (ref1, ref2) =>(
+        useRef({ ref1, ref2 })
+    );
+
     const [refBuns, inViewBuns] = useInView({ threshold: 0.05 });
     const [refSauces, inViewSauces] = useInView({ threshold: 0.05 });
     const [refMains, inViewMains] = useInView({ threshold: 0.05 });
@@ -61,9 +65,9 @@ function BurgerIngredients() {
         });
     };
 
-    const refForBun = useRef({ refBuns, titleBunRef });
-    const refForSauce = useRef({ refSauces, titleSaucesRef });
-    const refForMain = useRef({ refMains, titleMainRef });
+    // const refForBun = useRef({ refBuns, titleBunRef });
+    // const refForSauce = useRef({ refSauces, titleSaucesRef });
+    // const refForMain = useRef({ refMains, titleMainRef });
 
     return (
         <div className={styles.container}>
@@ -84,19 +88,19 @@ function BurgerIngredients() {
                     title = 'Булки'
                     ingredients = {buns}
                     onClick = {openModalIngredientCard}
-                    ref={refForBun}
+                    ref={GetRefFor(refBuns, titleBunRef)}
                 />
                 <BurgerItemsCategory 
                     title = 'Соусы'
                     ingredients = {sauces}
                     onClick = {openModalIngredientCard}
-                    ref={refForSauce}
+                    ref={GetRefFor(refSauces, titleSaucesRef)}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
                     ingredients = {mains}
                     onClick = {openModalIngredientCard}
-                    ref={refForMain}
+                    ref={GetRefFor(refMains, titleMainRef)}
                 />
             </div>
         </section>

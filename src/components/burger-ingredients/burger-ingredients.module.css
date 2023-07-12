@@ -51,6 +51,7 @@
     width: 260px;
     height: 196px;
     cursor: pointer;
+    position: relative;
 }
 
 .price{

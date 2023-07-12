@@ -29,11 +29,11 @@ function App() {
   );
 
   const orderDetailsModal = useSelector(
-    (state) => state.orderDetails?.openModal
+    (state) => state.orderDetails.openModal
   );
 
   const REQUEST = useSelector(
-    (state) => state.orderDetails?.makeOrderRequestInProgress
+    (state) => state.orderDetails.makeOrderRequestInProgress
   );
 
   function closeIngredientDetailsModal() {
@@ -64,7 +64,7 @@ function App() {
         {ingredientDetailsModal && <Modal onClose={closeIngredientDetailsModal} title = 'Детали ингредиента'>
           <IngredientDetails />
         </Modal>}
-        {orderDetailsModal && <Modal closeModal={closeOrderDetailsModal}>
+        {orderDetailsModal && <Modal onClose={closeOrderDetailsModal}>
           <OrderDetails />
         </Modal>}
       </>
