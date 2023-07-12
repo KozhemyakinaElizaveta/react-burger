@@ -1,12 +1,14 @@
 import styles from './order-details.module.css';
 import done from '../../images/done.png';
-import PropTypes from 'prop-types';
+import { useSelector } from "react-redux";
 
-export function OrderDetails({number}) {
+export function OrderDetails() {
+    const { orderId } = useSelector((state) => state.orderDetails);
+
     return(
         <>
         <div className={styles.main}>
-            <span className={`${styles.number} text text_type_digits-large mt-10`}>{number}</span>
+            <span className={`${styles.number} text text_type_digits-large mt-10`}>{orderId}</span>
             <span className={`${styles.text} text text_type_main-medium mt-8 mb-15`}>идентификатор заказа</span>
             <img src={done} alt=''></img>
             <span className={`${styles.text} text text_type_main-default mt-15`}>Ваш заказ начали готовить</span>
@@ -14,9 +16,6 @@ export function OrderDetails({number}) {
         </div>
         </>
     )
-}
-OrderDetails.propTypes = {
-    number: PropTypes.string.isRequired
 }
 
 export default OrderDetails;

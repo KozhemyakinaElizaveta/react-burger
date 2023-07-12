@@ -61,6 +61,10 @@ function BurgerIngredients() {
         });
     };
 
+    const refForBun = useRef({ refBuns, titleBunRef });
+    const refForSauce = useRef({ refSauces, titleSaucesRef });
+    const refForMain = useRef({ refMains, titleMainRef });
+
     return (
         <div className={styles.container}>
         <div className={styles.tab}>
@@ -78,24 +82,21 @@ function BurgerIngredients() {
             <div className={styles.items_category}>
                 <BurgerItemsCategory 
                     title = 'Булки'
-                    titleRef = {titleBunRef}
                     ingredients = {buns}
-                    ref = {refBuns}
                     onClick = {openModalIngredientCard}
+                    ref={refForBun}
                 />
                 <BurgerItemsCategory 
                     title = 'Соусы'
-                    titleRef = {titleSaucesRef}
                     ingredients = {sauces}
-                    ref = {refSauces}
                     onClick = {openModalIngredientCard}
+                    ref={refForSauce}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
-                    titleRef = {titleMainRef}
                     ingredients = {mains}
-                    ref = {refMains}
                     onClick = {openModalIngredientCard}
+                    ref={refForMain}
                 />
             </div>
         </section>

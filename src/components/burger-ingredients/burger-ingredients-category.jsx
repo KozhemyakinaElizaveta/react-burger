@@ -6,12 +6,14 @@ import { forwardRef } from "react";
 
 
 const BurgerItemsCategory = forwardRef(
-    ({ title, ingredients, onClick }, titleRef, ref) => {
+    ({ title, ingredients, onClick }, ref) => {
+    
+    const { ref1, ref2 } = ref.current;
 
     return (
         <div className={styles.items_content}>
-            <h2 ref={titleRef} className={`${styles.title} text text_type_main-medium mt-10`}>{title}</h2>
-            <div className={styles.items} ref={ref}>
+            <h2 ref={ref2} className={`${styles.title} text text_type_main-medium mt-10`}>{title}</h2>
+            <div className={styles.items} ref={ref1}>
                 {ingredients.map(ingredient => (
                     <BurgerIngredientsItem key={ingredient._id} ingredient={ingredient} onClick={onClick}/>
                 ))}
@@ -21,10 +23,10 @@ const BurgerItemsCategory = forwardRef(
 }
 );
 
-BurgerItemsCategory.propTypes = {
-    title: PropTypes.string.isRequired,
-    titleRef: PropTypes.object.isRequired,
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
-};
+// BurgerItemsCategory.propTypes = {
+//     title: PropTypes.string.isRequired,
+//     titleRef: PropTypes.object.isRequired,
+//     ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
+// };
 
 export default BurgerItemsCategory; 
