@@ -16,13 +16,13 @@ export const getIngredients = () => (dispatch) => {
 
     request(`${BURGER_API_URL}/ingredients`)
     .then((res) => {
-    dispatch({
-    type: INGREDIENTS_SUCCESS,
-    ingredients: res.data.map((ingredient) => ({
-        ...ingredient,
-        counter: 0,
-    })),
-    });
+        dispatch({
+            type: INGREDIENTS_SUCCESS,
+            ingredients: res.data.map((ingredient) => ({
+                ...ingredient,
+                counter: 0,
+            })),
+        });
     })
     .catch(() => dispatch(ingredientsError()));
 };

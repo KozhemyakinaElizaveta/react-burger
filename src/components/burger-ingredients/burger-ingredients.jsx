@@ -13,7 +13,7 @@ import {
 function BurgerIngredients() {
     const { ingredients } = useSelector((state) => state.burgerIngredients);
     const dispatch = useDispatch();
-    // const [currentTab, setCurrentTab] = React.useState('bun')
+
     const titleBunRef = useRef();
     const titleMainRef = useRef();
     const titleSaucesRef = useRef();
@@ -64,10 +64,6 @@ function BurgerIngredients() {
             type: OPEN_MODAL_INGREDIENT,
         });
     };
-
-    // const refForBun = useRef({ refBuns, titleBunRef });
-    // const refForSauce = useRef({ refSauces, titleSaucesRef });
-    // const refForMain = useRef({ refMains, titleMainRef });
 
     return (
         <div className={styles.container}>

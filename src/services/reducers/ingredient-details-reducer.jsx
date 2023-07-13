@@ -1,13 +1,10 @@
 import {
     NO_INGREDIENT,
     INGREDIENT,
-    OPEN_MODAL_INGREDIENT,
-    CLOSE_MODAL_INGREDIENT,
 } from "../actions/ingredient-details-action";
 
 const initialState = {
-    ingredient: null,
-    openModal: false,
+    ingredient: null
 };
 
 export const ingredientDetailsReducer = (state = initialState, action) => {
@@ -22,18 +19,6 @@ export const ingredientDetailsReducer = (state = initialState, action) => {
             return {
             ...state,
             ingredient: null,
-            };
-        }
-        case OPEN_MODAL_INGREDIENT: {
-            return {
-            ...state,
-            openModal: true,
-            };
-        }
-        case CLOSE_MODAL_INGREDIENT: {
-            return {
-            ...state,
-            openModal: false,
             };
         }
         default: {

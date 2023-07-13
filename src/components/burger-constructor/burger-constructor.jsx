@@ -14,10 +14,30 @@ import {
 import { ADD_BUN } from "../../services/actions/constructor-action";
 import { createOrder } from "../../services/actions/order-details-action";
 import { addIngredient } from "../../services/actions/constructor-action";
+// import { getIngredients } from "../../services/actions/ingredients-action";
+import Modal from '../modal/modal.jsx';
+import { CLOSE_ORDER_DETAILS_MODAL } from "../../services/actions/order-details-action";
+import { OrderDetails } from "../order-details/order-details";
 
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     dispatch(getIngredients());
+    // }, [dispatch]);
+
+    const orderDetailsModal = useSelector(
+        (state) => state.orderDetails.openModal
+    );
+
+    const REQUEST = useSelector(
+        (state) => state.orderDetails.makeOrderRequestInProgress
+    );
+
+    function closeOrderDetailsModal() {
+        dispatch({ type: CLOSE_ORDER_DETAILS_MODAL });
+    }
 
     const ingredients = useSelector(
         (state) => state.burgerConstructor.ingredients
@@ -81,6 +101,7 @@ function BurgerConstructor() {
 
     return (
         <div className={styles.final} ref={dropTargetRef}>
+        {REQUEST && <div className={styles.note}>Загрузка...</div>}
             <div className={styles.construct}>
                 {bunIngredient && (
                     <div className={`${styles.element_bun} ml-8`}>
@@ -119,6 +140,9 @@ function BurgerConstructor() {
                 Оформить заказ
                 </Button>
             </section>
+            {orderDetailsModal && <Modal onClose={closeOrderDetailsModal}>
+                <OrderDetails />
+            </Modal>}
         </div>
     );
 }
