@@ -28,7 +28,7 @@
 }
 
 .ingredients {
-    max-height: 400px;
+    max-height: 385px;
     overflow: auto;
     display: flex;
     flex-direction: column;

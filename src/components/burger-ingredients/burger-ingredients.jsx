@@ -1,48 +1,80 @@
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
-import ingredientsPropTypes from '../../utils/prop-types.js';
+import { useMemo, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import BurgerItemsCategory from './burger-ingredients-category.jsx';
+import { useInView } from "react-intersection-observer";
+import {
+    OPEN_MODAL_INGREDIENT,
+    selectIngredient,
+} from "../../services/actions/ingredient-details-action";
 
-function BurgerIngredients(props) {
-    const [currentTab, setCurrentTab] = React.useState('bun')
-    const titleBunRef = useRef(null);
-    const titleMainRef = useRef(null);
-    const titleSaucesRef = useRef(null);
 
-    const onTabClick = (tab) => {
-        setCurrentTab(tab);
-        if (tab === "bun") titleBunRef.current?.scrollIntoView({behavior: "smooth"});
-        if (tab === "main") titleMainRef.current?.scrollIntoView({behavior: "smooth"});
-        if (tab === "sauce") titleSaucesRef.current?.scrollIntoView({behavior: "smooth"})
-    };
+function BurgerIngredients() {
+    const { ingredients } = useSelector((state) => state.burgerIngredients);
+    const dispatch = useDispatch();
+
+    const titleBunRef = useRef();
+    const titleMainRef = useRef();
+    const titleSaucesRef = useRef();
 
     const buns = useMemo(
-        () => props.ingredients.filter((item) => item.type === "bun"),
-        [props.ingredients]
+        () => ingredients.filter((item) => item.type === "bun"),
+        [ingredients]
     );
 
     const mains = useMemo(
-        () => props.ingredients.filter((item) => item.type === "main"),
-        [props.ingredients]
+        () => ingredients.filter((item) => item.type === "main"),
+        [ingredients]
     );
 
     const sauces = useMemo(
-        () => props.ingredients.filter((item) => item.type === "sauce"),
-        [props.ingredients]
+        () => ingredients.filter((item) => item.type === "sauce"),
+        [ingredients]
     );
+
+    const GetRefFor = (ref1, ref2) =>(
+        useRef({ ref1, ref2 })
+    );
+
+    const [refBuns, inViewBuns] = useInView({ threshold: 0.05 });
+    const [refSauces, inViewSauces] = useInView({ threshold: 0.05 });
+    const [refMains, inViewMains] = useInView({ threshold: 0.05 });
+
+    const activeTab = () => {
+        if (inViewBuns) {
+            return 1
+        } else if (inViewSauces) {
+            return 2
+        } else if (inViewMains) {
+            return 3
+        }
+    };
+
+    const handleButtonClick = (ref) =>
+    ref.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+    });
+
+    const openModalIngredientCard = (ingredient) => {
+        dispatch(selectIngredient(ingredient));
+        dispatch({
+            type: OPEN_MODAL_INGREDIENT,
+        });
+    };
 
     return (
         <div className={styles.container}>
         <div className={styles.tab}>
-            <Tab value="bun" active={currentTab === 'bun'} onClick={onTabClick}>
+            <Tab value="bun" active={activeTab() === 1} onClick={() => handleButtonClick(titleBunRef)}>
             Булки
             </Tab>
-            <Tab value="sauce" active={currentTab === 'sauce'} onClick={onTabClick}>
+            <Tab value="sauce" active={activeTab() === 2} onClick={() => handleButtonClick(titleSaucesRef)}>
             Соусы
             </Tab>
-            <Tab value="main" active={currentTab === 'main'} onClick={onTabClick}>
+            <Tab value="main" active={activeTab() === 3} onClick={() => handleButtonClick(titleMainRef)}>
             Начинки
             </Tab>
         </div>
@@ -50,27 +82,26 @@ function BurgerIngredients(props) {
             <div className={styles.items_category}>
                 <BurgerItemsCategory 
                     title = 'Булки'
-                    titleRef = {titleBunRef}
                     ingredients = {buns}
+                    onClick = {openModalIngredientCard}
+                    ref={GetRefFor(refBuns, titleBunRef)}
                 />
                 <BurgerItemsCategory 
                     title = 'Соусы'
-                    titleRef = {titleSaucesRef}
                     ingredients = {sauces}
+                    onClick = {openModalIngredientCard}
+                    ref={GetRefFor(refSauces, titleSaucesRef)}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
-                    titleRef = {titleMainRef}
                     ingredients = {mains}
+                    onClick = {openModalIngredientCard}
+                    ref={GetRefFor(refMains, titleMainRef)}
                 />
             </div>
         </section>
         </div>
     );
 }
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
-};
 
 export default BurgerIngredients;

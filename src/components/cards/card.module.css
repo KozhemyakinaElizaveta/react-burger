@@ -1,0 +1,48 @@
+.card_fill {
+    margin: 0;
+    background: #1c1c21;
+    width: 536px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    border-radius: var(--common-border-radius-s);
+    margin-left: 26.5px;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    gap: 13.5px;
+}
+
+.points {
+    width: 13px;
+    height: 18.31px;
+}
+
+.Message {
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 5px 15px;
+}
+
+.card {
+    background: #1c1c21;
+    width: 536px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+.card_top {
+    border-radius: var(--top-constructor-item-border-radius);
+}
+
+.card_bottom {
+    border-radius: var(--bottom-constructor-item-border-radius);
+}
