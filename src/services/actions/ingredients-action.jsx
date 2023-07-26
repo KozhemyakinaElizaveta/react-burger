@@ -14,7 +14,7 @@ export const INGREDIENT_CARD = "INGREDIENT_CARD";
 export const getIngredients = () => (dispatch) => {
     dispatch({ type: INGREDIENTS_REQUEST });
 
-    request(`${BURGER_API_URL}/ingredients`)
+    request('ingredients')
     .then((res) => {
         dispatch({
             type: INGREDIENTS_SUCCESS,

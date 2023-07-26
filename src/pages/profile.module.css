@@ -1,0 +1,25 @@
+.container {
+    display: grid;
+    width: 1240px;
+    grid-template-columns: 320px 600px;
+    justify-content: center;
+}
+
+.menu_item {
+    width: 320px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.button {
+    cursor: pointer;
+}
+
+.active {
+    background-color: white;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}

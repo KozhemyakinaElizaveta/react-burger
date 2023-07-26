@@ -12,14 +12,19 @@
 }
 .buttons{
     display: flex;
+    align-items: center;
 }
 .right{
     display: flex;
     flex: 1;
     justify-content: center;
+    align-items: center;
 }
 .logo{
     display: flex;
     flex: 1;
     justify-content: center;
+}
+.no_style {
+    text-decoration: none;
 }
