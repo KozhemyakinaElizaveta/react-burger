@@ -1,32 +1,46 @@
 import styles from './ingredient-details.module.css';
-import { useSelector } from "react-redux";
-import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { useMemo, useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import {selectIngredient} from "../../services/actions/ingredient-details-action";
 
 export function IngredientDetails() {
+    const { ingredients } = useSelector((state) => state.burgerIngredients);
+    const dispatch = useDispatch();
+
+    const { id } = useParams();
+
+    // const ingredient = useMemo(() => {
+    //     return ingredients.find(i => i._id === id);
+    // }, [id, ingredients]);
+
+    // if (!ingredient) {
+    //     return (
+    //         <p>Не работает</p>
+    //     );
+    // }
 
     const { ingredient } = useSelector((state) => state.ingredientDetails);
 
-    const [currentIngredient, setIngredient] = useState(null)
-    const ingredients = useSelector(store => store.burgerIngredients.ingredients);
-    const { id } = useParams()
+    // const [ingredient, setIngredient] = useState(null)
 
-    useEffect(() => {
-        if (ingredients && ingredients.length) {
-            const _ingredient = ingredients.find(i => i._id === id)
-            if (_ingredient) {
-                setIngredient(_ingredient)
-            }
-        }
-        if (currentIngredient) {
-            ingredient = currentIngredient;
-        }
-    }, [id, ingredients])
+    // useEffect(() => {
+    //     if (ingredients && ingredients.length) {
+    //         const _ingredient = ingredients.find(i => i._id === id)
+    //         if (_ingredient) {
+    //             setIngredient(_ingredient)
+    //         }
+    //     }
+    // }, [id, ingredients])
 
     const { name, calories, carbohydrates, fat, proteins, image_large } = ingredient;
 
+    useEffect(() => {
+        dispatch(selectIngredient(ingredients.find((ingredient) => ingredient._id === id)));
+    }, [dispatch, id, ingredients]);
+
     return(
-        currentIngredient && (<>
+        ingredient && (<>
         <div className={`${styles.main} mb-15`}>
             <img src={image_large} alt={name}></img>
             <span className='text text_type_main-medium mt-4 mb-8'>{name}</span>

@@ -4,11 +4,7 @@ import ingredientsPropTypes from '../../utils/prop-types.js';
 import styles from './burger-ingredients.module.css';
 import { forwardRef, useEffect } from "react";
 import { getIngredients } from "../../services/actions/ingredients-action";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    NO_INGREDIENT,
-} from "../../services/actions/ingredient-details-action";
-import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
+import { useDispatch } from "react-redux";
 
 
 
