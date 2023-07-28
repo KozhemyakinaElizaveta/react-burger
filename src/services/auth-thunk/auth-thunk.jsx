@@ -21,7 +21,7 @@ import {
     logoutFailed,
     logoutSuccess
 } from '../actions/auth-action';
-import { registerRequest, loginRequest, sendResetEmailRequest, resetPasswordRequest, getUserRequest, patchUserRequest, logoutRequest } from '../../utils/burger-api'
+import { registerRequest, loginRequest, sendResetEmailRequest, resetPasswordRequest, updateUser, logoutRequest, getUserRequest } from '../../utils/burger-api'
 import { setItem } from '../../utils/local-storage';
 
 export function registerThunk(data) {
@@ -121,8 +121,8 @@ export function resetPasswordThunk(data) {
 
 export function getUserThunk() {
     return function (dispatch) {
-        dispatch(getUser())
-        getUserRequest()
+        dispatch(getUserRequest())
+        getUser()
             .then(res => {
                 if (res) {
                     dispatch(getUserSuccess(res.user))
@@ -140,7 +140,7 @@ export function getUserThunk() {
 export function patchUserThunk(data) {
     return function (dispatch) {
         dispatch(patchUser())
-        patchUserRequest(data)
+        updateUser(data)
             .then(res => {
                 if (res) {
                     dispatch(patchUserSuccess(res))

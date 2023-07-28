@@ -9,6 +9,7 @@ export function IngredientDetails() {
     const dispatch = useDispatch();
 
     const { id } = useParams();
+    
 
     // const ingredient = useMemo(() => {
     //     return ingredients.find(i => i._id === id);

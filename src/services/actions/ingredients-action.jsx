@@ -1,5 +1,5 @@
 import { request } from '../../utils/burger-api';
-import { BURGER_API_URL } from '../../utils/const.js';
+
 
 export const ADD_INGREDIENT_COUNTER = "ADD_INGREDIENT_COUNTER";
 export const REMOVE_INGREDIENT_COUNTER = "REMOVE_INGREDIENT_COUNTER";

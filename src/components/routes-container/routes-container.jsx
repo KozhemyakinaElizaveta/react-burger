@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { HomePage, SigninPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage, ProfileOrdersPage, ProfileAccountPage, IngredientModal, NotFound404, OrdersFeedPage } from '../../pages'
+import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage, ProfileOrdersPage, ProfileAccountPage, IngredientModal, NotFound404, OrdersFeedPage } from '../../pages'
 import { useSelector, useDispatch } from 'react-redux'
 import { addReturnUrl } from '../../services/actions/auth-action.jsx'
 import { useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ function ProtectedRouteElement({ element }) {
     if (userNotLoaded || getUser) {
         return null;
     } else {
-        return user ? element : <Navigate to="/sign-in" replace />;
+        return user ? element : <Navigate to="/login" replace />;
     }
 }
 
@@ -30,7 +30,7 @@ export default function RoutesContainer() {
             <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
                 <Route path='/orders-feed' element={<OrdersFeedPage />} />
-                <Route path="/sign-in" element={<SigninPage />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />

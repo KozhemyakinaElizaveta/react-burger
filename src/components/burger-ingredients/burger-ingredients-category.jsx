@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import ingredientsPropTypes from '../../utils/prop-types.js';
 import styles from './burger-ingredients.module.css';
 import { forwardRef, useEffect } from "react";
-import { getIngredients } from "../../services/actions/ingredients-action";
-import { useDispatch } from "react-redux";
+
 
 
 
@@ -12,12 +11,6 @@ const BurgerItemsCategory = forwardRef(
     ({ title, ingredients, onClick }, ref) => {
     
     const { ref1, ref2 } = ref.current;
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, [dispatch]);
 
     return (
         <div className={styles.items_content}>

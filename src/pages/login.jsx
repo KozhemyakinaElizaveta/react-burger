@@ -1,11 +1,11 @@
-import styles from './sign-in.module.css';
+import styles from './login.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { signInThunk } from '../services/auth-thunk/auth-thunk';
 
-export function SigninPage() {
+export function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch()

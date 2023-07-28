@@ -1,5 +1,5 @@
 import { HomePage } from './home'
-import { SigninPage } from './sign-in'
+import { LoginPage } from './login'
 import { RegisterPage } from './registration'
 import { ForgotPasswordPage } from './forgot-password'
 import { ResetPasswordPage } from './reset-password'
@@ -11,4 +11,4 @@ import { IngredientModal } from './ingredient-modal'
 import { NotFound404 } from './not-found'
 import { OrdersFeedPage } from './orders-feed'
 
-export { HomePage, SigninPage, ProfilePage, IngredientModal, NotFound404, RegisterPage, ForgotPasswordPage, ResetPasswordPage, IngredientPage, ProfileOrdersPage, ProfileAccountPage, OrdersFeedPage }
+export { HomePage, LoginPage, ProfilePage, IngredientModal, NotFound404, RegisterPage, ForgotPasswordPage, ResetPasswordPage, IngredientPage, ProfileOrdersPage, ProfileAccountPage, OrdersFeedPage }
