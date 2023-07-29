@@ -121,8 +121,8 @@ export function resetPasswordThunk(data) {
 
 export function getUserThunk() {
     return function (dispatch) {
-        dispatch(getUserRequest())
-        getUser()
+        dispatch(getUser())
+        getUserRequest()
             .then(res => {
                 if (res) {
                     dispatch(getUserSuccess(res.user))
@@ -136,7 +136,6 @@ export function getUserThunk() {
 
     }
 }
-
 export function patchUserThunk(data) {
     return function (dispatch) {
         dispatch(patchUser())

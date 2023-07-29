@@ -63,7 +63,7 @@ function BurgerIngredients() {
 
     const openIngredientModal = (ingredient) => {
         navigate(`/ingredients/${ingredient._id}`, { state: { background: location } })
-        dispatch(selectIngredient(ingredient));
+        // dispatch(selectIngredient(ingredient));
     }
 
     return (
