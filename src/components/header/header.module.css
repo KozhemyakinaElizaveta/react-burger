@@ -25,6 +25,12 @@
     flex: 1;
     justify-content: center;
 }
-.no_style {
+.link {
+    display: flex;
     text-decoration: none;
+    color: var(--text-inactive-color);
+}
+
+.link_active {
+    color: var(--text-primary-color);
 }

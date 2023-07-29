@@ -1,6 +1,6 @@
 import styles from './header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useMatch } from 'react-router-dom';
 
 export const activePaths = {
     'home': [{ path: '/', exact: true }, { path: '/ingredients', exact: false }],
@@ -9,31 +9,23 @@ export const activePaths = {
 }
 
 function AppHeader() {
-    const location = useLocation()
-
-    const isActiveClass = (navName) => {
-        let isActive = false;
-        activePaths[navName].forEach((pathObj) => {
-            if ((pathObj.exact && location.pathname === pathObj.path) || (!pathObj.exact && location.pathname.includes(pathObj.path))) {
-                isActive = true;
-            }
-        })
-        return { navClass: isActive ? 'no_style text text_type_main-default' : 'no_style text text_type_main-default text_color_inactive', iconType: isActive ? 'primary' : 'secondary' }
-    }
+    const isConstructor = !!useMatch({ path: "/", exact: true });
+    const isFeed = !!useMatch("/orders-feed");
+    const isProfile = !!useMatch("/profile");
 
     return (
         <header className={styles.header}>
             <div className={styles.left}>
-                <NavLink to='/' className={isActiveClass('home').navClass} >
+                <NavLink to='/' className={({isActive}) => `${styles.link} ${isActive ? styles.link_active : ""}`} >
                     <div className={`${styles.buttons} pl-5 pr-5 mr-2 pb-4 pt-4`}>
-                        <BurgerIcon type={isActiveClass('home').iconType} />
-                        <p className={`${styles.no_style} ml-2`}>Конструктор</p>
+                        <BurgerIcon type={isConstructor ? "primary" : "secondary"} />
+                        <p className={'text text_type_main-default ml-2'}>Конструктор</p>
                     </div>
                 </NavLink>
-                <NavLink to='/orders-feed' className={isActiveClass('ordersFeed').navClass}>
+                <NavLink to='/orders-feed' className={({isActive}) => `${styles.link} ${isActive ? styles.link_active : ""}`}>
                     <div className={`${styles.buttons} pl-5 pr-5 pb-4 pt-4`}>
-                        <ListIcon type={isActiveClass('ordersFeed').iconType} />
-                        <p className='ml-2'>Лента заказов</p>
+                        <ListIcon type={isFeed ? "primary" : "secondary"} />
+                        <p className='text text_type_main-default ml-2'>Лента заказов</p>
                     </div>
                 </NavLink>
             </div>
@@ -41,10 +33,10 @@ function AppHeader() {
                 <Link to='/'><Logo /></Link>
             </div>
             <div className={`${styles.right} pl-5 pr-5 pb-4 pt-4`}>
-                <NavLink to='/profile' className={isActiveClass('profile').navClass} >
+                <NavLink to='/profile' className={({isActive}) => `${styles.link} ${isActive ? styles.link_active : ""}`}>
                     <div className={styles.buttons}>
-                        <ProfileIcon type={isActiveClass('profile').iconType} />
-                        <p className='ml-2'>Личный кабинет</p>
+                        <ProfileIcon type={isProfile ? "primary" : "secondary"} />
+                        <p className='text text_type_main-default ml-2'>Личный кабинет</p>
                     </div>
                 </NavLink>
             </div>

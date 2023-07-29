@@ -3,7 +3,9 @@ import IngredientDetails from '../components/ingredient-details/ingredient-detai
 
 function IngredientPage() {
     return (
-        <IngredientDetails />
+        <div className='mt-20'>
+            <IngredientDetails />
+        </div>
     )
 }
 
