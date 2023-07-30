@@ -1,12 +1,19 @@
 import styles from './ingredient-details.module.css';
 import { useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
+
 
 export function IngredientDetails() {
-    const { ingredient } = useSelector((state) => state.ingredientDetails);
+
+    const { id } = useParams();
+    const ingredient = useSelector((state) => state.burgerIngredients.ingredients.find(({_id}) => _id === id));
+
+    if (!ingredient) return null;
 
     const { name, calories, carbohydrates, fat, proteins, image_large } = ingredient;
+
     return(
-        <>
+        ingredient && (<>
         <div className={`${styles.main} mb-15`}>
             <img src={image_large} alt={name}></img>
             <span className='text text_type_main-medium mt-4 mb-8'>{name}</span>
@@ -29,7 +36,7 @@ export function IngredientDetails() {
                 </div>
             </div>
         </div>
-        </>
+        </>)
     )
 }
 

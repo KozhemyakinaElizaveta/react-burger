@@ -1,5 +1,5 @@
 import { request } from '../../utils/burger-api';
-import { BURGER_API_URL } from '../../utils/const.js';
+
 
 export const ADD_INGREDIENT_COUNTER = "ADD_INGREDIENT_COUNTER";
 export const REMOVE_INGREDIENT_COUNTER = "REMOVE_INGREDIENT_COUNTER";
@@ -14,7 +14,7 @@ export const INGREDIENT_CARD = "INGREDIENT_CARD";
 export const getIngredients = () => (dispatch) => {
     dispatch({ type: INGREDIENTS_REQUEST });
 
-    request(`${BURGER_API_URL}/ingredients`)
+    request('ingredients')
     .then((res) => {
         dispatch({
             type: INGREDIENTS_SUCCESS,

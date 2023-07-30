@@ -14,18 +14,16 @@ import {
 import { ADD_BUN } from "../../services/actions/constructor-action";
 import { createOrder } from "../../services/actions/order-details-action";
 import { addIngredient } from "../../services/actions/constructor-action";
-// import { getIngredients } from "../../services/actions/ingredients-action";
 import Modal from '../modal/modal.jsx';
 import { CLOSE_ORDER_DETAILS_MODAL } from "../../services/actions/order-details-action";
 import { OrderDetails } from "../order-details/order-details";
-
+import { useNavigate } from 'react-router-dom';
+import { addReturnUrl } from '../../services/actions/auth-action';
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //     dispatch(getIngredients());
-    // }, [dispatch]);
+    const navigate = useNavigate()
+    const { user } = useSelector(store => store.authReducer);
 
     const orderDetailsModal = useSelector(
         (state) => state.orderDetails.openModal
@@ -91,6 +89,11 @@ function BurgerConstructor() {
     }
     
     function handlePlaceOrder() {
+        if (!user) {
+            dispatch(addReturnUrl('/'))
+            navigate('/login')
+            return;
+        }
         const orderIngredientIds = [
             bunIngredient._id,
             ...ingredients.map((ingredient) => ingredient._id),

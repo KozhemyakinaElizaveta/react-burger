@@ -16,7 +16,7 @@ export const createOrder = (orderItemsId) => {
         type: ORDER_REQUEST,
         });
 
-        request(`${BURGER_API_URL}/orders`, {
+        request('orders', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -23,3 +23,23 @@
   flex-direction: column;
 }
 
+.sign_in_container{
+  align-items: center;
+}
+
+.sign_in{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sign_in_form{
+  display: flex;
+  flex-direction: column;
+}
+.not_found{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}
