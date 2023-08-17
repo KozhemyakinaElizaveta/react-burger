@@ -23,11 +23,13 @@ import {
 } from '../actions/auth-action';
 import { registerRequest, loginRequest, sendResetEmailRequest, resetPasswordRequest, updateUser, logoutRequest, getUserRequest } from '../../utils/burger-api'
 import { setItem } from '../../utils/local-storage';
+import { Dispatch } from 'redux';
+import { TUserData, TLoginData, TResetData, TPatchUserData } from '../../utils/types';
 
-export function registerThunk(data) {
-    return function (dispatch) {
+export function registerThunk(userData: TUserData) {
+    return function (dispatch: Dispatch) {
         dispatch(register())
-        registerRequest(data)
+        registerRequest(userData)
             .then(res => {
                 if (res) {
                     setItem('burgerAccessToken', res.accessToken)
@@ -43,10 +45,10 @@ export function registerThunk(data) {
     }
 }
 
-export function signInThunk(data) {
-    return function (dispatch) {
+export function signInThunk(loginData: TLoginData) {
+    return function (dispatch: Dispatch) {
         dispatch(login())
-        loginRequest(data)
+        loginRequest(loginData)
             .then(res => {
                 if (res) {
                     setItem('burgerAccessToken', res.accessToken)
@@ -63,10 +65,10 @@ export function signInThunk(data) {
     }
 }
 
-export function logoutThunk(data) {
-    return function (dispatch) {
+export function logoutThunk() {
+    return function (dispatch: Dispatch) {
         dispatch(logout())
-        logoutRequest(data)
+        logoutRequest()
             .then(res => {
                 if (res) {
                     setItem('burgerAccessToken', '')
@@ -82,13 +84,13 @@ export function logoutThunk(data) {
     }
 }
 
-export function sendResetEmailThunk({ email, callback }) {
-    return function (dispatch) {
+export function sendResetEmailThunk({ email, callback }: { email: string, callback: Function }) {
+    return function (dispatch: Dispatch) {
         dispatch(sendResetEmail())
         sendResetEmailRequest({ email })
             .then(res => {
                 if (res) {
-                    dispatch(sendResetEmailSuccess(res))
+                    dispatch(sendResetEmailSuccess())
                     callback()
                 } else {
                     dispatch(sendResetEmailFailed())
@@ -100,14 +102,14 @@ export function sendResetEmailThunk({ email, callback }) {
     }
 }
 
-export function resetPasswordThunk(data) {
-    return function (dispatch) {
+export function resetPasswordThunk(data: TResetData) {
+    return function (dispatch: Dispatch) {
         dispatch(resetPassword())
         resetPasswordRequest(data)
             .then(res => {
                 if (res) {
                     alert('Пароль успешно восстановлен')
-                    dispatch(resetPasswordSuccess(res))
+                    dispatch(resetPasswordSuccess())
                 } else {
                     dispatch(resetPasswordFailed())
                 }
@@ -120,7 +122,7 @@ export function resetPasswordThunk(data) {
 }
 
 export function getUserThunk() {
-    return function (dispatch) {
+    return function (dispatch: Dispatch) {
         dispatch(getUser())
         getUserRequest()
             .then(res => {
@@ -133,11 +135,10 @@ export function getUserThunk() {
             .catch(err => {
                 dispatch(getUserFailed())
             })
-
     }
 }
-export function patchUserThunk(data) {
-    return function (dispatch) {
+export function patchUserThunk(data: TPatchUserData) {
+    return function (dispatch: Dispatch) {
         dispatch(patchUser())
         updateUser(data)
             .then(res => {

@@ -5,8 +5,9 @@ export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 export const CONSTRUCTOR_CARD = "CONSTRUCTOR_CARD";
 export const MOVE_INGREDIENT = "MOVE_INGREDIENT";
 export const CLEAR_CONSTRUCTOR = "CLEAR_CONSTRUCTOR";
+import { TIngredient} from '../../utils/types';
 
-export const addIngredient = (ingredient) => {
+export const addIngredient = (ingredient: TIngredient) => {
     const key=uniqid();
     return {
     type: ADD_INGREDIENT,
@@ -16,7 +17,7 @@ export const addIngredient = (ingredient) => {
 };
 
 
-export const removeIngredient = (ingridient, index) => ({
+export const removeIngredient = (ingridient: TIngredient, index: number) => ({
     type: REMOVE_INGREDIENT,
     index,
     ingridient,

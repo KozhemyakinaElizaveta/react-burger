@@ -1,4 +1,6 @@
 import { request } from '../../utils/burger-api';
+import { Dispatch } from 'redux';
+import { TIngredient } from '../../utils/types';
 
 
 export const ADD_INGREDIENT_COUNTER = "ADD_INGREDIENT_COUNTER";
@@ -11,27 +13,31 @@ export const CLEAR_INGREDIENT_COUNTER = "CLEAR_INGREDIENT_COUNTER";
 
 export const INGREDIENT_CARD = "INGREDIENT_CARD";
 
-export const getIngredients = () => (dispatch) => {
+export const getIngredients = () => (dispatch: Dispatch) => {
     dispatch({ type: INGREDIENTS_REQUEST });
 
     request('ingredients')
     .then((res) => {
-        dispatch({
-            type: INGREDIENTS_SUCCESS,
-            ingredients: res.data.map((ingredient) => ({
-                ...ingredient,
-                counter: 0,
-            })),
-        });
+        dispatch(getIngredientsSuccess(res.data))
     })
     .catch(() => dispatch(ingredientsError()));
 };
+
+function getIngredientsSuccess(data: Array<TIngredient> = []) {
+    return {
+        type: INGREDIENTS_SUCCESS,
+        ingredients: data.map((ingredient) => ({
+            ...ingredient,
+            counter: 0,
+        })),
+    }
+}
 
 const ingredientsError = () => ({
     type: INGREDIENTS_ERROR,
 });
 
-export const removeIngredientCounter = (_id) => ({
+export const removeIngredientCounter = (_id: string) => ({
     type: REMOVE_INGREDIENT_COUNTER,
     _id: _id,
 });

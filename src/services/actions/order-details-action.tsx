@@ -1,6 +1,8 @@
 import { request } from '../../utils/burger-api';
 import { BURGER_API_URL } from '../../utils/const.js';
-import {clearIngredientCounter} from '../actions/ingredients-action';
+import {clearIngredientCounter} from './ingredients-action';
+import { Dispatch } from 'redux';
+import { TOrder } from '../../utils/types';
 
 export const CLEAR_CONSTRUCTOR = "CLEAR_CONSTRUCTOR";
 export const ORDER_REQUEST = "ORDER_REQUEST";
@@ -10,8 +12,8 @@ export const OPEN_ORDER_DETAILS_MODAL = "OPEN_ORDER_DETAILS_MODAL";
 export const CLOSE_ORDER_DETAILS_MODAL = "CLOSE_ORDER_DETAILS_MODAL";
 
 
-export const createOrder = (orderItemsId) => {
-    return (dispatch) => {
+export const createOrder = (orderItemsId: any) => {
+    return (dispatch: Dispatch) => {
         dispatch({
         type: ORDER_REQUEST,
         });
@@ -45,3 +47,13 @@ export const createOrder = (orderItemsId) => {
         });
     };
 };
+
+function getOrderSuccess(data: Array<TIngredient> = []) {
+    return {
+        type: INGREDIENTS_SUCCESS,
+        ingredients: data.map((ingredient) => ({
+            ...ingredient,
+            counter: 0,
+        })),
+    }
+}

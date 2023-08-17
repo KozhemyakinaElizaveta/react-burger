@@ -1,6 +1,6 @@
-import AppHeader from '../header/header.jsx';
+import AppHeader from '../header/header';
 import styles from './app.module.css';
-import RoutesContainer from '../routes-container/routes-container.jsx';
+import RoutesContainer from '../routes-container/routes-container';
 import { getIngredients } from "../../services/actions/ingredients-action";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";

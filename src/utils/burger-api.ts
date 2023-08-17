@@ -1,56 +1,57 @@
 import { getItem, setItem } from './local-storage';
 import {BURGER_API_URL} from './const';
+import { TUserData, TLoginData, TResetEmailData, TResetData, TPatchUserData,  TFetchRes, TFetchResJson, TFetchOptions } from './types';
 
-export const checkResponse = (res) => {
+export const checkResponse = (res: TFetchRes) => {
     return res.ok
         ? res.json()
         : res.json().then(() => Promise.reject(res.status));
 };
 
-export const checkSuccess = (res) => {
+export const checkSuccess = (res: TFetchResJson) => {
     if (res && res.success) {
         return res;
     }
     return Promise.reject(`Ответ не success: ${res}`);
 };
 
-export const request = ( endpoint, options, withAuth) => {
+export const request = (endpoint: string, options: TFetchOptions | undefined = undefined, withAuth: boolean = false) => {
     return fetch(`${BURGER_API_URL}${endpoint}`, options)
         .then((res) => checkJwtExpired(res, endpoint, options, withAuth))
         .then(checkResponse)
         .then(checkSuccess);
 };
 
-const checkJwtExpired = (res, endpoint, options, withAuth) => {
+const checkJwtExpired = (res: TFetchRes, endpoint: string, options: TFetchOptions | undefined, withAuth: boolean): TFetchRes | Promise<Response> => {
     if (!withAuth) {
         return res;
     }
     if (res.ok) {
-        return res;
+    return res;
     }
     else if (res.status === 403) {
         return new Promise(function (resolve, reject) {
-        res.json().then((res) => {
+            res.json().then((res: TFetchResJson) => {
             if (res.message === 'jwt expired') {
-            const tokenOptions = {
+                const tokenOptions: TFetchOptions = {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json', 'Authorization': getItem('burgerAccessToken') },
                 body: JSON.stringify({ token: getItem('burgerRefreshToken') })
-            }
-            request('auth/token', tokenOptions).then((res) => {
+                }
+                request('auth/token', tokenOptions, false).then((res) => {
                 if (res.success) {
                     setItem('burgerAccessToken', res.accessToken)
                     setItem('burgerRefreshToken', res.refreshToken)
                     resolve(fetch(`${BURGER_API_URL}${endpoint}`, {
-                    ...options, headers: { ...options.headers, 'Authorization': getItem('burgerAccessToken') }
+                    ...options, headers: { ...options?.headers, 'Authorization': getItem('burgerAccessToken') }
                     }))
-                    } else {
-                        reject(Promise.reject(`Не удалось обновить токен: ${res}`));
-                    }
-                })
                 } else {
                     reject(Promise.reject(`Не удалось обновить токен: ${res}`));
                 }
+                })
+            } else {
+                reject(Promise.reject(`Не удалось обновить токен: ${res}`));
+            }
             })
         })
     } else {
@@ -58,27 +59,6 @@ const checkJwtExpired = (res, endpoint, options, withAuth) => {
     }
 }
 
-// export const fetchWithRefresh = async (endpoint, options) => {
-//     try {
-//         const res = await fetch(`${BURGER_API_URL}/${endpoint}`, options);
-//         return await checkResponse(res);
-//         } catch (err) {
-//         if (err.message === "jwt expired") {
-//             //обновляем токен
-//             const refreshData = await refreshToken();
-//             if (!refreshData.success) {
-//             return Promise.reject(refreshData);
-//             }
-//             localStorage.setItem("burgerRefreshToken", refreshData.refreshToken);
-//             localStorage.setItem("burgerAccessToken", refreshData.accessToken);
-//             options.headers.authorization = refreshData.accessToken;
-//             const res = await fetch(`${BURGER_API_URL}/${endpoint}`, options);
-//             return await checkResponse(res);
-//         } else {
-//             return Promise.reject(err);
-//         }
-//     }
-// };
 
 export const refreshToken = () => {
     return request(`${BURGER_API_URL}/auth/token`, {
@@ -92,20 +72,20 @@ export const refreshToken = () => {
     });
 };
 
-export const registerRequest = (data) => {
+export const registerRequest = (userData: TUserData) => {
     const options = {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(userData)
     }
     return request('auth/register', options)
 }
 
-export const loginRequest = (data) => {
+export const loginRequest = (loginData: TLoginData) => {
     const options = {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(loginData)
     }
     return request('auth/login', options)
 }
@@ -119,20 +99,20 @@ export const logoutRequest = () => {
     return request('auth/logout', options)
 }
 
-export const sendResetEmailRequest = (data) => {
+export const sendResetEmailRequest = (resetEmailData: TResetEmailData) => {
     const options = {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(resetEmailData)
     }
     return request('password-reset', options)
 }
 
-export const resetPasswordRequest = (data) => {
+export const resetPasswordRequest = (resetData: TResetData) => {
     const options = {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(resetData)
     }
     return request('password-reset/reset', options)
 }
@@ -145,36 +125,11 @@ export const getUserRequest = () => {
     return request('auth/user', options, true)
 }
 
-export const updateUser = (data) => {
+export const updateUser = (patchUserData: TPatchUserData) => {
     const options = {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json; charset=UTF-8', 'Authorization': getItem('burgerAccessToken') },
-        body: JSON.stringify(data)
+        body: JSON.stringify(patchUserData)
     }
     return request('auth/user', options, true)
 }
-
-// export const getUserRequest = () => {
-//     return fetchWithRefresh("auth/user", {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json; charset=UTF-8",
-//             authorization: localStorage.getItem("accessToken"),
-//         },
-//     });
-// };
-
-// export const updateUser = ({ name, email, password }) => {
-//     return fetchWithRefresh("auth/user", {
-//         method: "PATCH",
-//         body: JSON.stringify({
-//             email: email,
-//             name: name,
-//             password: password,
-//         }),
-//         headers: {
-//             "Content-Type": "application/json; charset=UTF-8",
-//             authorization: localStorage.getItem("accessToken"),
-//         },
-//     });
-// };

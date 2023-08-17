@@ -28,13 +28,15 @@ export const PATCH_USER_SUCCESS = 'PATCH_USER_SUCCESS';
 
 export const ADD_RETURN_URL = 'ADD_RETURN_URL';
 
+import { TFetchResJson, TUserData } from '../../utils/types';
+
 export function register() {
     return {
         type: REGISTER
     }
 }
 
-export function registerSuccess(data) {
+export function registerSuccess(data: TFetchResJson) {
     return {
         type: REGISTER_SUCCESS,
         payload: data
@@ -53,17 +55,16 @@ export function login() {
     }
 }
 
-export function loginSuccess(data) {
+export function loginSuccess(data: TFetchResJson) {
     return {
         type: LOGIN_SUCCESS,
         payload: data
     }
 }
 
-export function loginFailed(data) {
+export function loginFailed() {
     return {
-        type: LOGIN_FAILED,
-        payload: data
+        type: LOGIN_FAILED
     }
 }
 
@@ -133,7 +134,7 @@ export function getUserFailed() {
     }
 }
 
-export function getUserSuccess(data) {
+export function getUserSuccess(data: TUserData | undefined) {
     return {
         type: GET_USER_SUCCESS,
         payload: data
@@ -152,14 +153,14 @@ export function patchUserFailed() {
     }
 }
 
-export function patchUserSuccess(data) {
+export function patchUserSuccess(data: TFetchResJson) {
     return {
         type: PATCH_USER_SUCCESS,
         payload: data
     }
 }
 
-export function addReturnUrl(data) {
+export function addReturnUrl(data: string) {
     return {
         type: ADD_RETURN_URL,
         payload: data
