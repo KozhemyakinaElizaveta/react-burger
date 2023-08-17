@@ -8,6 +8,7 @@ function ProtectedRouteElement({ element }) {
     const { user, getUser } = useSelector(store => store.authReducer);
     const [userNotLoaded, setUserNotLoaded] = useState(true)
     const location = useLocation();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,7 +25,8 @@ function ProtectedRouteElement({ element }) {
 
 export default function RoutesContainer() {
     const location = useLocation();
-    const background = location.state && location.state.background;
+    const locationState = location.state as {background?: Location }
+    const background = locationState && locationState.background;
     return (
         <>
             <Routes location={background || location}>

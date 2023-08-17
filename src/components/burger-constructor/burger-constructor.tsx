@@ -4,6 +4,7 @@ import {useMemo} from "react";
 import { useDrop } from "react-dnd";
 import { BunCard } from '../cards/buns-card';
 import { IngredientsCard } from '../cards/igredients-card';
+import { useAppSelector, useAppDispatch } from '../../utils/hooks';
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,8 +20,10 @@ import { CLOSE_ORDER_DETAILS_MODAL } from "../../services/actions/order-details-
 import { OrderDetails } from "../order-details/order-details";
 import { useNavigate } from 'react-router-dom';
 import { addReturnUrl } from '../../services/actions/auth-action';
+import { getAuth, getOrderDetails, getConstructorIngredients } from '../../utils/store'
 
 function BurgerConstructor() {
+    const storeIngredients = useAppSelector(getConstructorIngredients)
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { user } = useSelector(store => store.authReducer);
@@ -37,9 +40,7 @@ function BurgerConstructor() {
         dispatch({ type: CLOSE_ORDER_DETAILS_MODAL });
     }
 
-    const ingredients = useSelector(
-        (state) => state.burgerConstructor.ingredients
-    );
+    const ingredients = storeIngredients.ingredients;
 
     const { bunIngredient } = useSelector((state) => state.burgerConstructor);
 
