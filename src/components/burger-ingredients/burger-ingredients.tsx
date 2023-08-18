@@ -2,41 +2,42 @@ import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import BurgerItemsCategory from './burger-ingredients-category.jsx';
+import BurgerItemsCategory from './burger-ingredients-category';
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     selectIngredient,
 } from "../../services/actions/ingredient-details-action";
+import { TIngredient } from '../../utils/types';
 
 
 function BurgerIngredients() {
+    //@ts-ignore
     const { ingredients } = useSelector((state) => state.burgerIngredients);
-    const dispatch = useDispatch();
 
     const navigate = useNavigate()
     const location = useLocation()
 
-    const titleBunRef = useRef();
-    const titleMainRef = useRef();
-    const titleSaucesRef = useRef();
+    const titleBunRef = useRef<HTMLInputElement>();
+    const titleMainRef = useRef<HTMLInputElement>();
+    const titleSaucesRef = useRef<HTMLInputElement>();
 
     const buns = useMemo(
-        () => ingredients.filter((item) => item.type === "bun"),
+        () => ingredients.filter((item: TIngredient) => item.type === "bun"),
         [ingredients]
     );
 
     const mains = useMemo(
-        () => ingredients.filter((item) => item.type === "main"),
+        () => ingredients.filter((item: TIngredient) => item.type === "main"),
         [ingredients]
     );
 
     const sauces = useMemo(
-        () => ingredients.filter((item) => item.type === "sauce"),
+        () => ingredients.filter((item: TIngredient) => item.type === "sauce"),
         [ingredients]
     );
 
-    const GetRefFor = (ref1, ref2) =>(
+    const GetRefFor = (ref1: any, ref2: any) =>(
         useRef({ ref1, ref2 })
     );
 
@@ -54,14 +55,14 @@ function BurgerIngredients() {
         }
     };
 
-    const handleButtonClick = (ref) =>
+    const handleButtonClick = (ref: any) =>
     ref.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
         inline: 'nearest',
     });
 
-    const openIngredientModal = (ingredient) => {
+    const openIngredientModal = (ingredient: TIngredient) => {
         navigate(`/ingredients/${ingredient._id}`, { state: { background: location } })
         // dispatch(selectIngredient(ingredient));
     }

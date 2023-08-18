@@ -1,15 +1,19 @@
-import BurgerIngredientsItem from './burger-ingredients-item.jsx';
-import PropTypes from 'prop-types';
-import ingredientsPropTypes from '../../utils/prop-types.js';
+import BurgerIngredientsItem from './burger-ingredients-item';
 import styles from './burger-ingredients.module.css';
-import { forwardRef, useEffect } from "react";
+import { FunctionComponent, Ref, forwardRef } from "react";
+import { TIngredient } from '../../utils/types';
 
 
+type TItemsCategory = {
+    title: string,
+    ingredients: Array<TIngredient>,
+    onClick: (ingredient: TIngredient) => void,
+    ref: Ref<HTMLButtonElement>
+}
 
-
-const BurgerItemsCategory = forwardRef(
+const BurgerItemsCategory: FunctionComponent<TItemsCategory> = forwardRef(
     ({ title, ingredients, onClick }, ref) => {
-    
+    //не понимаю как исправить
     const { ref1, ref2 } = ref.current;
 
     return (
@@ -24,11 +28,5 @@ const BurgerItemsCategory = forwardRef(
     );
 }
 );
-
-BurgerItemsCategory.propTypes = {
-    title: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired
-};
 
 export default BurgerItemsCategory; 

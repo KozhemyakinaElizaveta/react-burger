@@ -2,9 +2,14 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage, ProfileOrdersPage, ProfileAccountPage, IngredientModal, NotFound404, OrdersFeedPage } from '../../pages'
 import { useSelector, useDispatch } from 'react-redux'
 import { addReturnUrl } from '../../services/actions/auth-action.jsx'
-import { useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
-function ProtectedRouteElement({ element }) {
+type TProtectedRouteElement = {
+    element: JSX.Element;
+}
+
+const ProtectedRouteElement: FunctionComponent<TProtectedRouteElement> = ({ element }) => {
+    //@ts-ignore
     const { user, getUser } = useSelector(store => store.authReducer);
     const [userNotLoaded, setUserNotLoaded] = useState(true)
     const location = useLocation();
@@ -24,7 +29,8 @@ function ProtectedRouteElement({ element }) {
 
 export default function RoutesContainer() {
     const location = useLocation();
-    const background = location.state && location.state.background;
+    const locationState = location.state as {background?: Location };
+    const background = locationState && locationState.background;
     return (
         <>
             <Routes location={background || location}>

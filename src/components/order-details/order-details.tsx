@@ -3,6 +3,7 @@ import done from '../../images/done.png';
 import { useSelector } from "react-redux";
 
 export function OrderDetails() {
+    //@ts-ignore
     const { orderId } = useSelector((state) => state.orderDetails);
 
     return(

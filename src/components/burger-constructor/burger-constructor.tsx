@@ -14,22 +14,26 @@ import {
 import { ADD_BUN } from "../../services/actions/constructor-action";
 import { createOrder } from "../../services/actions/order-details-action";
 import { addIngredient } from "../../services/actions/constructor-action";
-import Modal from '../modal/modal.jsx';
+import Modal from '../modal/modal';
 import { CLOSE_ORDER_DETAILS_MODAL } from "../../services/actions/order-details-action";
 import { OrderDetails } from "../order-details/order-details";
 import { useNavigate } from 'react-router-dom';
 import { addReturnUrl } from '../../services/actions/auth-action';
+import { TIngredient } from '../../utils/types';
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    //@ts-ignore
     const { user } = useSelector(store => store.authReducer);
 
     const orderDetailsModal = useSelector(
+        //@ts-ignore
         (state) => state.orderDetails.openModal
     );
 
     const REQUEST = useSelector(
+        //@ts-ignore
         (state) => state.orderDetails.makeOrderRequestInProgress
     );
 
@@ -38,18 +42,20 @@ function BurgerConstructor() {
     }
 
     const ingredients = useSelector(
+        //@ts-ignore
         (state) => state.burgerConstructor.ingredients
     );
 
+    //@ts-ignore
     const { bunIngredient } = useSelector((state) => state.burgerConstructor);
 
     const Top = "top";
 
     const orderAmount = useMemo(() => {
         return (
-            ingredients.reduce((acc, cur) => {
-            if (cur.ingredient.price) {
-                return acc + cur.ingredient.price;
+            ingredients.reduce((acc: any, cur: TIngredient) => {
+            if (cur.price) {
+                return acc + cur.price;
             }
             return acc;
           }, 0) + (bunIngredient ? bunIngredient.price * 2 : 0)
@@ -58,12 +64,12 @@ function BurgerConstructor() {
 
     const [, dropTargetRef] = useDrop({
         accept: INGREDIENT_CARD,
-        drop(ingredient) {
+        drop(ingredient: TIngredient) {
             handleDrop(ingredient);
         },
     });
     
-    function handleDrop(ingredient) {
+    function handleDrop(ingredient: TIngredient) {
         const { _id, type } = ingredient;
         switch (type) {
         case "bun": {
@@ -96,9 +102,10 @@ function BurgerConstructor() {
         }
         const orderIngredientIds = [
             bunIngredient._id,
-            ...ingredients.map((ingredient) => ingredient._id),
+            ...ingredients.map((ingredient: TIngredient) => ingredient._id),
             bunIngredient._id,
         ];
+        //@ts-ignore
         dispatch(createOrder(orderIngredientIds));
     }
 
