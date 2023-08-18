@@ -8,16 +8,19 @@ import { useDispatch, useSelector } from 'react-redux'
 export function ResetPasswordPage() {
     const [password, setPassword] = useState('')
     const [token, setToken] = useState('')
+    //@ts-ignore
     const { user, getUser } = useSelector(store => store.authReducer);
+    //@ts-ignore
     const { sendResetEmailSuccess } = useSelector((store) => store.sendResetEmailReducer)
 
     const dispatch = useDispatch()
 
-    const handleResetPasswordSubmit = (e) => {
+    const handleResetPasswordSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         if (!password || !token) {
             return
         }
+        //@ts-ignore
         dispatch(resetPasswordThunk({ password, token }))
     }
     if (getUser) {

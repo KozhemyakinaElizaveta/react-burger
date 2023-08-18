@@ -1,19 +1,20 @@
 import BurgerIngredientsItem from './burger-ingredients-item';
 import styles from './burger-ingredients.module.css';
-import { FunctionComponent, Ref, forwardRef } from "react";
+import { forwardRef } from "react";
 import { TIngredient } from '../../utils/types';
 
-
-type TItemsCategory = {
+interface Props {
     title: string,
     ingredients: Array<TIngredient>,
-    onClick: (ingredient: TIngredient) => void,
-    ref: Ref<HTMLButtonElement>
+    onClick: (ingredient: TIngredient) => void
 }
 
-const BurgerItemsCategory: FunctionComponent<TItemsCategory> = forwardRef(
+export type Ref = HTMLButtonElement;
+
+const BurgerItemsCategory = forwardRef<Ref, Props>(
     ({ title, ingredients, onClick }, ref) => {
     //не понимаю как исправить
+    //@ts-ignore
     const { ref1, ref2 } = ref.current;
 
     return (

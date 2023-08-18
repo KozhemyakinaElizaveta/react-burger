@@ -1,5 +1,4 @@
 import { request } from '../../utils/burger-api';
-import { BURGER_API_URL } from '../../utils/const.js';
 import {clearIngredientCounter} from '../actions/ingredients-action';
 
 export const CLEAR_CONSTRUCTOR = "CLEAR_CONSTRUCTOR";

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import {
@@ -9,12 +9,18 @@ import {
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./card.module.css";
 import {removeIngredientCounter} from "../../services/actions/ingredients-action";
+import { TIngredient } from "../../utils/types";
 
-export const IngredientCard = ({ item, index }) => {
+type TIngredientCard = {
+    item: TIngredient,
+    index: number
+}
+
+export const IngredientCard: FC<TIngredientCard> = ({ item, index }) => {
     const { name, price, image, _id } = item;
 
     const dispatch = useDispatch();
-    const ref = useRef(null);
+    const ref = useRef<HTMLInputElement>(null);
 
     const [{ isDragging }, dragRef] = useDrag({
         type: CONSTRUCTOR_CARD,
@@ -33,13 +39,14 @@ export const IngredientCard = ({ item, index }) => {
             return;
         }
 
+        //@ts-ignore
         const dragIndex = item.index;
         const hoverIndex = index;
         if (dragIndex === hoverIndex) {
             return;
         }
         const hoverBoundingRect = ref.current.getBoundingClientRect();
-        const clientOffset = monitor.getClientOffset();
+        const clientOffset: any = monitor.getClientOffset();
         const hoverMiddleY =
             (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
@@ -56,12 +63,14 @@ export const IngredientCard = ({ item, index }) => {
             hoverIndex: hoverIndex,
         });
 
+        //@ts-ignore
         item.index = hoverIndex;
         },
     });
 
     dragRef(dropRef(ref));
 
+    //@ts-ignore
     const onClose = (item, index, _id) => {
         dispatch(removeIngredient(item, index));
         dispatch(removeIngredientCounter(_id));
@@ -70,6 +79,7 @@ export const IngredientCard = ({ item, index }) => {
     return (
         <li
         className={`${styles.listItem} ${isDragging && styles.item_drag}`}
+        //@ts-ignore
         ref={ref}
         >
         <div className={styles.points}>

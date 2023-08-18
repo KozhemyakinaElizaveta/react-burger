@@ -86,18 +86,21 @@ function BurgerIngredients() {
                     title = 'Булки'
                     ingredients = {buns}
                     onClick = {openIngredientModal}
+                    //@ts-ignore
                     ref={GetRefFor(refBuns, titleBunRef)}
                 />
                 <BurgerItemsCategory 
                     title = 'Соусы'
                     ingredients = {sauces}
                     onClick = {openIngredientModal}
+                    //@ts-ignore
                     ref={GetRefFor(refSauces, titleSaucesRef)}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
                     ingredients = {mains}
                     onClick = {openIngredientModal}
+                    //@ts-ignore
                     ref={GetRefFor(refMains, titleMainRef)}
                 />
             </div>

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('')
     const dispatch = useDispatch()
+    //@ts-ignore
     const { user, getUser } = useSelector(store => store.authReducer);
     const navigate = useNavigate()
 
@@ -22,11 +23,12 @@ export function ForgotPasswordPage() {
         navigate('/reset-password')
     }
 
-    const handleForgotPasswordSubmit = (e) => {
+    const handleForgotPasswordSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         if (!email) {
             return
         }
+        //@ts-ignore
         dispatch(sendResetEmailThunk({ email, callback: redirectToResetPassword }))
     }
 

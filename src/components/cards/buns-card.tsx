@@ -1,7 +1,11 @@
+import { FunctionComponent } from "react";
 import styles from "./card.module.css";
-import PropTypes from 'prop-types';
 
-export const BunCard = ({ style }) => {
+type TBun = {
+    style: string | boolean | object
+} 
+
+export const BunCard: FunctionComponent<TBun> = ({ style }) => {
     return (
         
         <div
@@ -12,12 +16,4 @@ export const BunCard = ({ style }) => {
         <p className="text text_type_main-medium">Выбери булку</p>
         </div>
     );
-};
-
-BunCard.propTypes = {
-    style: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool,
-        PropTypes.object
-    ]).isRequired,
 };

@@ -1,45 +1,37 @@
-import styles from './register.module.css';
+import styles from './login.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
 import { Link, Navigate } from "react-router-dom";
-import { registerThunk } from '../services/auth-thunk/auth-thunk'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import { signInThunk } from '../services/auth-thunk/auth-thunk';
 
-export function RegisterPage() {
-    const [name, setName] = useState('')
+export function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch()
-    const { user, getUser } = useSelector(store => store.authReducer);
+    //@ts-ignore
+    const { user } = useSelector(store => store.authReducer);
+    //@ts-ignore
+    const returnUrl = useSelector(store => store.returnUrlReducer.url)
 
-    const handleRegisterSubmit = (e) => {
-        e.preventDefault()
-        if (!name || !email || !password) {
+    const handleLoginSubmit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        if (!email || !password) {
             return
         }
-        dispatch(registerThunk({ name, email, password }))
+        //@ts-ignore
+        dispatch(signInThunk({ email, password }))
     }
-    if (getUser) {
-        return null;
-    }
+
     if (user) {
-        return <Navigate to="/" replace />
+        return returnUrl ? <Navigate to={returnUrl} replace /> : <Navigate to="/" replace />
     }
 
     return (
         <div className= {`${styles.container} mt-20`}>
-            <div className='text text_type_main-large'>Регистрация</div>
-            <form onSubmit={handleRegisterSubmit}>
+            <div className='text text_type_main-large'>Вход</div>
+            <form onSubmit={handleLoginSubmit}>
                 <div className={styles.wrapper}>
-                    <div className='mt-6'>
-                        <Input
-                            placeholder={'Имя'}
-                            type={'text'}
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            size={'default'}
-                        />
-                    </div>
                     <div className='mt-6'>
                         <Input
                             placeholder={'E-mail'}
@@ -62,14 +54,18 @@ export function RegisterPage() {
                             type="primary"
                             size="large"
                         >
-                            Зарегистрироваться
+                            Войти
                         </Button>
                     </div>
                 </div>
             </form>
             <div className={styles.text_block + ' mt-20'}>
-                <div className='text text_type_main-small text_color_inactive'>Уже зарегистрированы?</div>
-                <div className={styles.link + ' ml-1 text text_type_main-small'}><Link className="no_style" to='/login'>Войти</Link></div>
+                <div className='text text_type_main-small text_color_inactive'>Вы - новый пользователь?</div>
+                <div className={styles.link + ' ml-1 text text_type_main-small'}><Link className="no_style" to='/register'>Зарегистрироваться</Link></div>
+            </div>
+            <div className={styles.text_block + ' mt-4'}>
+                <div className='text text_type_main-small text_color_inactive'>Забыли пароль?</div>
+                <div className={styles.link + ' ml-1 text text_type_main-small'}><Link className="no_style" to='/forgot-password'>Восстановить пароль</Link></div>
             </div>
         </div>
     )
