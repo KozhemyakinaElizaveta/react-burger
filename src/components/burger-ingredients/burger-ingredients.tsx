@@ -1,6 +1,6 @@
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useMemo, useRef } from 'react';
+import { Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BurgerItemsCategory from './burger-ingredients-category';
 import { useInView } from "react-intersection-observer";
@@ -14,13 +14,20 @@ import { TIngredient } from '../../utils/types';
 function BurgerIngredients() {
     //@ts-ignore
     const { ingredients } = useSelector((state) => state.burgerIngredients);
+    const [current, setCurrent] = useState('bun')
 
     const navigate = useNavigate()
     const location = useLocation()
 
-    const titleBunRef = useRef<HTMLInputElement>();
-    const titleMainRef = useRef<HTMLInputElement>();
-    const titleSaucesRef = useRef<HTMLInputElement>();
+    const bunRef = useRef<HTMLInputElement>(null);
+    const mainRef = useRef<HTMLInputElement>(null);
+    const sauceRef = useRef<HTMLInputElement>(null);
+    const tabRef = useRef<HTMLInputElement>(null)
+
+    const parentRect = useRef<DOMRect | undefined | null>(null);
+    useEffect(() => {
+        parentRect.current = tabRef.current?.getBoundingClientRect()
+    }, [])
 
     const buns = useMemo(
         () => ingredients.filter((item: TIngredient) => item.type === "bun"),
@@ -37,13 +44,43 @@ function BurgerIngredients() {
         [ingredients]
     );
 
-    const GetRefFor = (ref1: any, ref2: any) =>(
-        useRef({ ref1, ref2 })
-    );
-
     const [refBuns, inViewBuns] = useInView({ threshold: 0.05 });
     const [refSauces, inViewSauces] = useInView({ threshold: 0.05 });
     const [refMains, inViewMains] = useInView({ threshold: 0.05 });
+
+    const handleTabClick = (current: string) => {
+        switch (current) {
+            case 'bun':
+                bunRef.current?.scrollIntoView({ behavior: 'smooth' })
+                break;
+            case 'sauce':
+                sauceRef.current?.scrollIntoView({ behavior: 'smooth' })
+                break;
+            case 'main':
+                mainRef.current?.scrollIntoView({ behavior: 'smooth' })
+                break;
+            default:
+                break;
+        }
+        setCurrent(current)
+    }
+
+    const handleScroll = () => {
+        const bunDist = Math.abs((bunRef.current?.getBoundingClientRect().top || 0) - (parentRect.current?.bottom || 0));
+        const sauceDist = Math.abs((sauceRef.current?.getBoundingClientRect().top || 0) - (parentRect.current?.bottom || 0));
+        const mainDist = Math.abs((mainRef.current?.getBoundingClientRect().top || 0) - (parentRect.current?.bottom || 0));
+        const minDist = Math.min(bunDist, sauceDist, mainDist)
+        if (minDist === bunDist) {
+            setCurrent('bun')
+        }
+        else if (minDist === sauceDist) {
+            setCurrent('sauce')
+        }
+        else {
+            setCurrent('main')
+        }
+    }
+
 
     const activeTab = () => {
         if (inViewBuns) {
@@ -55,13 +92,6 @@ function BurgerIngredients() {
         }
     };
 
-    const handleButtonClick = (ref: any) =>
-    ref.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-    });
-
     const openIngredientModal = (ingredient: TIngredient) => {
         navigate(`/ingredients/${ingredient._id}`, { state: { background: location } })
         // dispatch(selectIngredient(ingredient));
@@ -69,39 +99,39 @@ function BurgerIngredients() {
 
     return (
         <div className={styles.container}>
-        <div className={styles.tab}>
-            <Tab value="bun" active={activeTab() === 1} onClick={() => handleButtonClick(titleBunRef)}>
+        <div className={styles.tab} ref={tabRef}>
+            <Tab value="bun" active={activeTab() === 1} onClick={handleTabClick}>
             Булки
             </Tab>
-            <Tab value="sauce" active={activeTab() === 2} onClick={() => handleButtonClick(titleSaucesRef)}>
+            <Tab value="sauce" active={activeTab() === 2} onClick={handleTabClick}>
             Соусы
             </Tab>
-            <Tab value="main" active={activeTab() === 3} onClick={() => handleButtonClick(titleMainRef)}>
+            <Tab value="main" active={activeTab() === 3} onClick={handleTabClick}>
             Начинки
             </Tab>
         </div>
-        <section className={styles.scroll} >
+        <section className={styles.scroll} onScroll={handleScroll}>
             <div className={styles.items_category}>
                 <BurgerItemsCategory 
                     title = 'Булки'
                     ingredients = {buns}
                     onClick = {openIngredientModal}
-                    //@ts-ignore
-                    ref={GetRefFor(refBuns, titleBunRef)}
+                    tabRef = {refBuns}
+                    ref={bunRef}
                 />
                 <BurgerItemsCategory 
                     title = 'Соусы'
                     ingredients = {sauces}
                     onClick = {openIngredientModal}
-                    //@ts-ignore
-                    ref={GetRefFor(refSauces, titleSaucesRef)}
+                    tabRef = {refSauces}
+                    ref={sauceRef}
                 />
                 <BurgerItemsCategory 
                     title = 'Начинки'
                     ingredients = {mains}
                     onClick = {openIngredientModal}
-                    //@ts-ignore
-                    ref={GetRefFor(refMains, titleMainRef)}
+                    tabRef = {refMains}
+                    ref={mainRef}
                 />
             </div>
         </section>

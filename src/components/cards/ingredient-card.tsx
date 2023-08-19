@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
+import { XYCoord, useDrag, useDrop } from "react-dnd";
 import {
     CONSTRUCTOR_CARD,
     MOVE_INGREDIENT,
@@ -13,6 +13,11 @@ import { TIngredient } from "../../utils/types";
 
 type TIngredientCard = {
     item: TIngredient,
+    index: number
+}
+
+type TDragItem = {
+    uuid: string,
     index: number
 }
 
@@ -39,14 +44,13 @@ export const IngredientCard: FC<TIngredientCard> = ({ item, index }) => {
             return;
         }
 
-        //@ts-ignore
-        const dragIndex = item.index;
+        const dragIndex = (item as TDragItem).index;
         const hoverIndex = index;
         if (dragIndex === hoverIndex) {
             return;
         }
         const hoverBoundingRect = ref.current.getBoundingClientRect();
-        const clientOffset: any = monitor.getClientOffset();
+        const clientOffset = monitor.getClientOffset() as XYCoord;
         const hoverMiddleY =
             (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
@@ -63,8 +67,7 @@ export const IngredientCard: FC<TIngredientCard> = ({ item, index }) => {
             hoverIndex: hoverIndex,
         });
 
-        //@ts-ignore
-        item.index = hoverIndex;
+        (item as TDragItem).index = hoverIndex;
         },
     });
 

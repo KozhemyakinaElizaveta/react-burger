@@ -6,21 +6,19 @@ import { TIngredient } from '../../utils/types';
 interface Props {
     title: string,
     ingredients: Array<TIngredient>,
-    onClick: (ingredient: TIngredient) => void
+    onClick: (ingredient: TIngredient) => void,
+    tabRef: any
 }
 
-export type Ref = HTMLButtonElement;
+export type Ref = HTMLInputElement;
 
 const BurgerItemsCategory = forwardRef<Ref, Props>(
-    ({ title, ingredients, onClick }, ref) => {
-    //не понимаю как исправить
-    //@ts-ignore
-    const { ref1, ref2 } = ref.current;
+    ({ title, ingredients, onClick, tabRef }, ref) => {
 
     return (
         <div className={styles.items_content}>
-            <h2 ref={ref2} className={`${styles.title} text text_type_main-medium mt-10`}>{title}</h2>
-            <div className={styles.items} ref={ref1}>
+            <h2 ref={ref} className={`${styles.title} text text_type_main-medium mt-10`}>{title}</h2>
+            <div className={styles.items} ref={tabRef}>
                 {ingredients.map(ingredient => (
                     <BurgerIngredientsItem key={ingredient._id} ingredient={ingredient} onClick={onClick}/>
                 ))}

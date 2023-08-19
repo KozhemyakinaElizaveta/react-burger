@@ -53,7 +53,7 @@ function BurgerConstructor() {
 
     const orderAmount = useMemo(() => {
         return (
-            ingredients.reduce((acc: any, cur: TIngredient) => {
+            ingredients.reduce((acc: number, cur: TIngredient) => {
             if (cur.price) {
                 return acc + cur.price;
             }

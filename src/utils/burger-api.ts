@@ -2,23 +2,17 @@ import { getItem, setItem } from './local-storage';
 import {BURGER_API_URL} from './const';
 import { TUserData, TLoginData, TResetEmailData, TResetData, TPatchUserData,  TFetchRes, TFetchResJson, TFetchOptions } from '../utils/types';
 
-type TServerResponce<T> = {
-    success: boolean
-} & T;
-
-type TRefreshResponce = TServerResponce<{ refreshToken: string, accessToken: string}>
-
-export const checkResponse = (res: TFetchRes) => {
+const checkResponse = (res: TFetchRes): Promise<any> => {
     return res.ok
         ? res.json()
         : res.json().then(() => Promise.reject(res.status));
 };
 
-export const checkSuccess = (res: TFetchResJson) => {
+const checkSuccess = (res: TFetchResJson): Promise<any> | TFetchResJson => {
     if (res && res.success) {
         return res;
     }
-    return Promise.reject(`Ответ не success: ${res}`);
+    return Promise.reject(`Error: ${res?.message}`);
 };
 
 export const request = (endpoint: string, options: TFetchOptions | undefined = undefined, withAuth: boolean = false) => {
