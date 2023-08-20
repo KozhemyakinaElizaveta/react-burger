@@ -1,84 +1,64 @@
-import { getItem, setItem } from './local-storage';
+import { getItem} from './local-storage';
 import {BURGER_API_URL} from './const';
 import { TUserData, TLoginData, TResetEmailData, TResetData, TPatchUserData,  TFetchRes, TFetchResJson, TFetchOptions } from '../utils/types';
 
-type TServerResponse<T> = {
-    success: boolean
-} & T;
-
-type TRefreshResponse = TServerResponse<{ refreshToken: string, accessToken: string}>
-
-// const checkResponse = (res: TFetchRes): Promise<any> => {
-//     return res.ok
-//         ? res.json()
-//         : res.json().then(() => Promise.reject(res.status));
-// };
+type TServerResponse = {
+    success: boolean,
+    refreshToken?: string,
+    accessToken?: string
+};
 
 const checkResponse = <T>(res: Response): Promise<T> => {
-    return res.ok ? res.json().then(data => data as TServerResponse<T>) : Promise.reject(res.status);
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const checkSuccess = <T>(res: TFetchResJson): Promise<T> | TFetchResJson => {
-    if (res && res.success) {
-        return res;
-    }
-    return Promise.reject(`Error: ${res?.message}`);
-};
-
-export const request = (endpoint: string, options: TFetchOptions | undefined = undefined, withAuth: boolean = false) => {
-    return fetch(`${BURGER_API_URL}${endpoint}`, options)
-        .then((res) => checkJwtExpired(res, endpoint, options, withAuth))
-        .then(res => checkResponse<TRefreshResponse>)
-        .then((res) => checkSuccess<TFetchResJson>);
-};
-
-const checkJwtExpired = (res: TFetchRes, endpoint: string, options: TFetchOptions | undefined, withAuth: boolean): TFetchRes | Promise<Response> => {
-    if (!withAuth) {
-        return res;
-    }
-    if (res.ok) {
-    return res;
-    }
-    else if (res.status === 403) {
-        return new Promise(function (resolve, reject) {
-            res.json().then((res: TFetchResJson) => {
-            if (res.message === 'jwt expired') {
-                const tokenOptions: any = {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json', 'Authorization': getItem('burgerAccessToken') },
-                body: JSON.stringify({ token: getItem('burgerRefreshToken') })
-                }
-                request('auth/token', tokenOptions, false).then((res) => {
-                if (res.success) {
-                    setItem('burgerAccessToken', res.accessToken)
-                    setItem('burgerRefreshToken', res.refreshToken)
-                    resolve(fetch(`${BURGER_API_URL}${endpoint}`, {
-                    ...options, headers: { ...options?.headers, 'Authorization': getItem('burgerAccessToken') }
-                    }))
-                } else {
-                    reject(Promise.reject(`Не удалось обновить токен: ${res}`));
-                }
-                })
-            } else {
-                reject(Promise.reject(`Не удалось обновить токен: ${res}`));
+export const request = <T extends TServerResponse>(url: string, options: RequestInit): Promise<T> => {
+    return fetch(BURGER_API_URL + url, options)
+        .then((res) => checkResponse<T>(res))
+        .then((data) => {
+            if (!data.success){
+            throw new Error(`${(data as any).message}`);
             }
-            })
-        })
-    } else {
-        return res;
-    }
-}
+            return data
+        });
+};
 
-export const refreshToken = () => {
-    return request(`${BURGER_API_URL}/auth/token`, {
+export const refreshToken = <T extends TServerResponse>(): Promise<T> => {
+    const options = {
         method: "POST",
+        headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        },
         body: JSON.stringify({
             token: localStorage.getItem("refreshToken"),
         }),
-        headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-        },
-    });
+    }
+    return request<T>(`${BURGER_API_URL}/auth/token`, options);
+};
+
+export const fetchWithRefresh = async <T extends TServerResponse>(url: string, options: RequestInit): Promise<T> => {
+    try {
+        return await request(BURGER_API_URL + url, options);
+    } catch (err) {
+        if ((err as Error).message === "jwt expired") {
+            const refreshData = await refreshToken<T>(); 
+            if (!refreshData.success) {
+            return Promise.reject(refreshData);
+            }
+            localStorage.setItem("refreshToken", (refreshData as any).refreshToken);
+            localStorage.setItem("accessToken", (refreshData as any).accessToken);
+            const optionsRefresh = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                authorization: (refreshData as any).accessToken,
+            },
+            };
+            return await request(BURGER_API_URL + url, optionsRefresh);
+        } else {
+            return Promise.reject(err);
+        }
+    }
 };
 
 export const registerRequest = (userData: TUserData) => {
@@ -131,7 +111,7 @@ export const getUserRequest = () => {
         method: 'get',
         headers: { 'Content-Type': 'application/json', 'Authorization': getItem('burgerAccessToken') }
     }
-    return request('auth/user', options, true)
+    return request('auth/user', options)
 }
 
 export const updateUser = (patchUserData: TPatchUserData) => {
@@ -140,5 +120,5 @@ export const updateUser = (patchUserData: TPatchUserData) => {
         headers: { 'Content-type': 'application/json; charset=UTF-8', 'Authorization': getItem('burgerAccessToken') },
         body: JSON.stringify(patchUserData)
     }
-    return request('auth/user', options, true)
+    return request('auth/user', options)
 }
