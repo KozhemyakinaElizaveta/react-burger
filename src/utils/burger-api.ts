@@ -2,13 +2,23 @@ import { getItem, setItem } from './local-storage';
 import {BURGER_API_URL} from './const';
 import { TUserData, TLoginData, TResetEmailData, TResetData, TPatchUserData,  TFetchRes, TFetchResJson, TFetchOptions } from '../utils/types';
 
-const checkResponse = (res: TFetchRes): Promise<any> => {
-    return res.ok
-        ? res.json()
-        : res.json().then(() => Promise.reject(res.status));
+type TServerResponse<T> = {
+    success: boolean
+} & T;
+
+type TRefreshResponse = TServerResponse<{ refreshToken: string, accessToken: string}>
+
+// const checkResponse = (res: TFetchRes): Promise<any> => {
+//     return res.ok
+//         ? res.json()
+//         : res.json().then(() => Promise.reject(res.status));
+// };
+
+const checkResponse = <T>(res: Response): Promise<T> => {
+    return res.ok ? res.json().then(data => data as TServerResponse<T>) : Promise.reject(res.status);
 };
 
-const checkSuccess = (res: TFetchResJson): Promise<any> | TFetchResJson => {
+const checkSuccess = <T>(res: TFetchResJson): Promise<T> | TFetchResJson => {
     if (res && res.success) {
         return res;
     }
@@ -18,8 +28,8 @@ const checkSuccess = (res: TFetchResJson): Promise<any> | TFetchResJson => {
 export const request = (endpoint: string, options: TFetchOptions | undefined = undefined, withAuth: boolean = false) => {
     return fetch(`${BURGER_API_URL}${endpoint}`, options)
         .then((res) => checkJwtExpired(res, endpoint, options, withAuth))
-        .then(checkResponse)
-        .then(checkSuccess);
+        .then(res => checkResponse<TRefreshResponse>)
+        .then((res) => checkSuccess<TFetchResJson>);
 };
 
 const checkJwtExpired = (res: TFetchRes, endpoint: string, options: TFetchOptions | undefined, withAuth: boolean): TFetchRes | Promise<Response> => {
