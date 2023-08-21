@@ -8,6 +8,7 @@ export function ProfilePage() {
     const dispatch = useDispatch()
 
     const handleLogoutClick = () => {
+        //@ts-ignore
         dispatch(logoutThunk())
     }
 

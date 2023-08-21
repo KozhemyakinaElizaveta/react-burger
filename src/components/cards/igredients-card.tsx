@@ -1,10 +1,15 @@
-import PropTypes from "prop-types";
-import ingredientsPropTypes from '../../utils/prop-types.js';
 import { IngredientCard } from "./ingredient-card";
 import { FillingCard } from "./filling-card";
 // import styles from "./card.module.css";
+import { TIngredient } from '../../utils/types';
+import { FC } from "react";
 
-export const IngredientsCard = ({ ingredients }) => {
+
+type TIngredientsCard = {
+    ingredients: Array<TIngredient>
+}
+
+export const IngredientsCard: FC<TIngredientsCard> = ({ ingredients }) => {
     return ingredients.length === 0 ? (
         <div className="pt-2 pb-2 ml-2" >
             <FillingCard />
@@ -20,8 +25,4 @@ export const IngredientsCard = ({ ingredients }) => {
         })}
         </>
     );
-};
-
-IngredientsCard.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired,
 };

@@ -9,7 +9,7 @@ export const activePaths = {
 }
 
 function AppHeader() {
-    const isConstructor = !!useMatch({ path: "/", exact: true });
+    const isConstructor = !!useMatch({ path: "/" });
     const isFeed = !!useMatch("/orders-feed");
     const isProfile = !!useMatch("/profile");
 

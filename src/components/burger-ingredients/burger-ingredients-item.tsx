@@ -1,9 +1,15 @@
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { useDrag } from "react-dnd";
+import { TIngredient } from '../../utils/types';
+import { FunctionComponent } from 'react';
 
+type TItems = {
+    ingredient: TIngredient,
+    onClick: (ingredient: TIngredient) => void
+}
 
-const BurgerIngredientsItem = ({ ingredient, onClick }) => {
+const BurgerIngredientsItem: FunctionComponent<TItems> = ({ ingredient, onClick }) => {
     const { image, price, name, } = ingredient;
 
     const [{isDragging}, dragRef] = useDrag({

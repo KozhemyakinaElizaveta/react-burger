@@ -1,23 +1,29 @@
 import styles from './modal.module.css';
-import {useEffect } from "react";
+import {PropsWithChildren, useEffect } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from './modal-overlay';
-import PropTypes from 'prop-types';
 import {ESC_KEYCODE} from '../../utils/const';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const modalRoot = document.getElementById("portal-root");
+const modalRoot = document.getElementById("portal-root") as Element;
 
-export const Modal = ({ children, onClose, title}) => {
+interface ModalProps {
+    title: string;
+    onClose: () => void;
+}
+
+type MakeOptional<Type, Key extends keyof Type> = Omit<Type, Key> & Partial<Pick<Type, Key>>;
+
+type T1 = MakeOptional<ModalProps, 'title'>;
+
+export const Modal: React.FC<PropsWithChildren<T1>> = ({ children, onClose, title}) => {
     const closeModal = () => {
         onClose();
     };
     
     useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.keyCode === ESC_KEYCODE && onClose) {
-                closeModal();
-            }
+        const handleKeyDown = (event: KeyboardEvent) => {
+            event.keyCode === ESC_KEYCODE && onClose()
         };
 
         document.addEventListener("keydown", handleKeyDown);
@@ -44,11 +50,5 @@ export const Modal = ({ children, onClose, title}) => {
     modalRoot
     );
 };
-
-Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-    title: PropTypes.string
-}
 
 export default Modal;

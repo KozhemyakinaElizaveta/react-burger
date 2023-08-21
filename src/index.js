@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/app/app.jsx';
+import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import {compose, applyMiddleware} from 'redux';
 import { legacy_createStore as createStore} from 'redux'

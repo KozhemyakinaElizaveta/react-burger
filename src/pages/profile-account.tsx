@@ -10,11 +10,12 @@ export function ProfileAccountPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isButtonsVisible, setIsButtonsVisible] = useState(false)
+    //@ts-ignore
     const user = useSelector(store => store.authReducer.user)
     const dispatch = useDispatch()
 
     const handleSaveClick = () => {
-        const dataObj = {}
+        const dataObj: { name?: string, email?: string, password?: string } = {}
         if (name !== user.name) {
             dataObj.name = name
         }
@@ -24,6 +25,7 @@ export function ProfileAccountPage() {
         if (password) {
             dataObj.password = password
         }
+        //@ts-ignore
         dispatch(patchUserThunk(dataObj))
     }
 
