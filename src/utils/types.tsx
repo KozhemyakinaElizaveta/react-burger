@@ -13,8 +13,12 @@ export type TIngredient = {
     __v: number,
     uuid?: string,
     counter?: any,
-    key?: number | null,
-    ingredient?: any
+    key?: string,
+}
+
+export type TCurIngredient = {
+    key?: number | null | string,
+    ingredient: TIngredient
 }
 
 export type TOrder = {
@@ -67,4 +71,48 @@ export type TFetchOptions = {
     headers?: HeadersInit | any;
     method?: string;
     body?: string;
+}
+
+export type TAuthInitialState = {
+    user: TUserData | null | undefined;
+    register: boolean;
+    registerFailed: boolean;
+    registerSuccess: boolean;
+    login: boolean;
+    loginFailed: boolean;
+    loginSoccess: boolean;
+    logout: boolean;
+    logoutFailed: boolean;
+    logoutSuccess: boolean;
+    getUser: boolean;
+    getUserSuccess: boolean;
+    getUserFailed: boolean;
+    patchUser: boolean;
+    patchUserSuccess: boolean;
+    patchUserFailed: boolean;
+}
+
+export type TResetPasswordInitialState = {
+    resetPassword: boolean;
+    resetPasswordFailed: boolean;
+    resetPasswordSuccess: boolean;
+}
+
+export type TSendResetEmailInitialState = {
+    sendResetEmail: boolean;
+    sendResetEmailFailed: boolean;
+    sendResetEmailSuccess: boolean;
+}
+
+export type TReturnUrlInitialState = {
+    url: string
+}
+
+export type TIngredientsInitialState = {
+    ingredients: Array<TIngredient>;
+    bunIngredient: TIngredient | null;
+}
+
+export type TConstructorItemsInitialState = {
+    constructorIngredients: { bun: TIngredient | null, innerIngredients: Array<TIngredient> }
 }

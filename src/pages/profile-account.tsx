@@ -1,8 +1,9 @@
 import styles from './profile.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { patchUserThunk } from '../services/auth-thunk/auth-thunk'
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { getAuth } from '../services/store';
 
 
 export function ProfileAccountPage() {
@@ -10,33 +11,33 @@ export function ProfileAccountPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isButtonsVisible, setIsButtonsVisible] = useState(false)
-    //@ts-ignore
-    const user = useSelector(store => store.authReducer.user)
-    const dispatch = useDispatch()
+    const {user} = useAppSelector(getAuth)
+    const dispatch = useAppDispatch()
 
     const handleSaveClick = () => {
         const dataObj: { name?: string, email?: string, password?: string } = {}
-        if (name !== user.name) {
+        if (name !== user?.name) {
             dataObj.name = name
         }
-        if (email !== user.email) {
+        if (email !== user?.email) {
             dataObj.email = email
         }
         if (password) {
             dataObj.password = password
         }
-        //@ts-ignore
         dispatch(patchUserThunk(dataObj))
     }
 
     useEffect(() => {
-        setIsButtonsVisible(name !== user.name || email !== user.email || password !== '')
+        setIsButtonsVisible(name !== user?.name || email !== user?.email || password !== '')
     }, [user, name, email, password])
 
     const handleCancelClick = () => {
-        setName(user.name)
-        setEmail(user.email)
-        setPassword('')
+        if (user) {
+            setName(user.name)
+            setEmail(user.email)
+            setPassword('')
+        }
     }
 
     useEffect(() => {

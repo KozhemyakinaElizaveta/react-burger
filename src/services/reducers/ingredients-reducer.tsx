@@ -1,3 +1,4 @@
+import { TIngredient } from "../../utils/types";
 import {
     INGREDIENTS_REQUEST,
     INGREDIENTS_SUCCESS,
@@ -6,15 +7,22 @@ import {
     REMOVE_INGREDIENT_COUNTER,
     ADD_BUN_COUNTER,
     CLEAR_INGREDIENT_COUNTER,
+    TCounterIngredientActions,
 } from "../actions/ingredients-action";
 
-const initialState = {
+type TInitialState = {
+    ingredients: Array<TIngredient>;
+    fetchIngredientsRequest: boolean;
+    fetchIngredientsError: boolean;
+}
+
+const initialState: TInitialState = {
     ingredients: [],
     fetchIngredientsRequest: false,
     fetchIngredientsError: false,
 };
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action: TCounterIngredientActions): TInitialState => {
 switch (action.type) {
     case INGREDIENTS_REQUEST: {
     return {

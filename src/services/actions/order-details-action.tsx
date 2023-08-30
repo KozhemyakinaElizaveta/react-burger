@@ -1,5 +1,6 @@
 import { request } from '../../utils/burger-api';
-import {clearIngredientCounter} from '../actions/ingredients-action';
+import {clearIngredientCounter} from './ingredients-action';
+import { AppDispatch, AppThunk } from '../store';
 
 export const CLEAR_CONSTRUCTOR = "CLEAR_CONSTRUCTOR";
 export const ORDER_REQUEST = "ORDER_REQUEST";
@@ -8,9 +9,37 @@ export const ORDER_FAILED = "ORDER_FAILED";
 export const OPEN_ORDER_DETAILS_MODAL = "OPEN_ORDER_DETAILS_MODAL";
 export const CLOSE_ORDER_DETAILS_MODAL = "CLOSE_ORDER_DETAILS_MODAL";
 
+export interface IOrderRequest {
+    readonly type: typeof ORDER_REQUEST;
+}
 
-export const createOrder = (orderItemsId) => {
-    return (dispatch) => {
+export interface IOrderSucceed {
+    readonly type: typeof ORDER_SUCCEED;
+    orderId: string;
+}
+
+export interface IOrderFailed {
+    readonly type: typeof ORDER_FAILED;
+}
+
+export interface IOpen {
+    readonly type: typeof OPEN_ORDER_DETAILS_MODAL;
+}
+
+export interface IClose {
+    readonly type: typeof CLOSE_ORDER_DETAILS_MODAL;
+}
+
+export type TOrderActions =
+    | IOrderRequest
+    | IOrderSucceed 
+    | IOrderFailed
+    | IClose
+    | IOpen;
+
+
+export const createOrder: AppThunk = (orderItemsId) => {
+    return (dispatch: AppDispatch) => {
         dispatch({
         type: ORDER_REQUEST,
         });

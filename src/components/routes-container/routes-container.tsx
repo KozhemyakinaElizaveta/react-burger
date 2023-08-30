@@ -1,16 +1,17 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage, ProfileOrdersPage, ProfileAccountPage, IngredientModal, NotFound404, OrdersFeedPage } from '../../pages'
-import { useSelector, useDispatch } from 'react-redux'
-import { addReturnUrl } from '../../services/actions/auth-action.jsx'
+import { useDispatch } from 'react-redux'
+import { addReturnUrl } from '../../services/actions/auth-action'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { getAuth } from '../../services/store';
+import { useAppSelector } from '../../utils/hooks';
 
 type TProtectedRouteElement = {
     element: JSX.Element;
 }
 
 const ProtectedRouteElement: FunctionComponent<TProtectedRouteElement> = ({ element }) => {
-    //@ts-ignore
-    const { user, getUser } = useSelector(store => store.authReducer);
+    const { user, getUser } = useAppSelector(getAuth);
     const [userNotLoaded, setUserNotLoaded] = useState(true)
     const location = useLocation();
     const dispatch = useDispatch();

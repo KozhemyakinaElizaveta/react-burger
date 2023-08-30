@@ -2,24 +2,22 @@ import styles from './login.module.css';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
 import { Link, Navigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
 import { signInThunk } from '../services/auth-thunk/auth-thunk';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { getAuth, getReturnUrl } from '../services/store';
 
 export function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const dispatch = useDispatch()
-    //@ts-ignore
-    const { user } = useSelector(store => store.authReducer);
-    //@ts-ignore
-    const returnUrl = useSelector(store => store.returnUrlReducer.url)
+    const dispatch = useAppDispatch()
+    const { user } = useAppSelector(getAuth);
+    const returnUrl = useAppSelector(getReturnUrl)
 
     const handleLoginSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         if (!email || !password) {
             return
         }
-        //@ts-ignore
         dispatch(signInThunk({ email, password }))
     }
 

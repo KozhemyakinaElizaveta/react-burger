@@ -3,15 +3,17 @@ import {
     ADD_INGREDIENT,
     REMOVE_INGREDIENT,
     CLEAR_CONSTRUCTOR,
-    MOVE_INGREDIENT
+    MOVE_INGREDIENT,
+    TCurrentIngredientActions
 } from "../actions/constructor-action";
+import { TIngredientsInitialState } from '../../utils/types';
 
-const initialState = {
+const initialState: TIngredientsInitialState = {
     ingredients: [],
     bunIngredient: null,
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action: TCurrentIngredientActions): TIngredientsInitialState => {
     switch (action.type) {
     case ADD_BUN: {
         return {
@@ -25,14 +27,14 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ...state,
         ingredients: [
             ...state.ingredients,
-            action.ingredient
+            action.ingredient!
         ],
         };
     }
 
     case REMOVE_INGREDIENT: {
         const ingredientsArray = [...state.ingredients];
-        ingredientsArray.splice(action.insex, 1);
+        ingredientsArray.splice(action.index, 1);
         return {
         ...state,
         ingredients: ingredientsArray
