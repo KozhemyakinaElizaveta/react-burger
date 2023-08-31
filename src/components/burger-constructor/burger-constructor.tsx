@@ -4,7 +4,7 @@ import {useMemo} from "react";
 import { useDrop } from "react-dnd";
 import { BunCard } from '../cards/buns-card';
 import { IngredientsCard } from '../cards/igredients-card';
-
+import { ProgressBar } from 'react-loader-spinner'
 import {
     INGREDIENT_CARD,
     ADD_BUN_COUNTER,
@@ -100,7 +100,6 @@ function BurgerConstructor() {
 
     return (
         <div className={styles.final} ref={dropTargetRef}>
-        {REQUEST && <div className={styles.note}>Загрузка...</div>}
             <div className={styles.construct}>
                 {bunIngredient && (
                     <div className={`${styles.element_bun} ml-8`}>
@@ -135,9 +134,11 @@ function BurgerConstructor() {
                     <p className="text text_type_digits-medium mr-1">{orderAmount}</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button disabled={!bunIngredient} htmlType="button" type="primary" size="medium" onClick={handlePlaceOrder} >
-                Оформить заказ
-                </Button>
+                {REQUEST ? <ProgressBar /> :
+                    <Button disabled={!bunIngredient} htmlType="button" type="primary" size="medium" onClick={handlePlaceOrder} >
+                    Оформить заказ
+                    </Button>
+                }
             </section>
             {orderDetailsModal && <Modal onClose={closeOrderDetailsModal}>
                 <OrderDetails />

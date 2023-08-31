@@ -27,7 +27,7 @@ export const burgerConstructorReducer = (state = initialState, action: TCurrentI
         ...state,
         ingredients: [
             ...state.ingredients,
-            action.ingredient!
+            action.item
         ],
         };
     }

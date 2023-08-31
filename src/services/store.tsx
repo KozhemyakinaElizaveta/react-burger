@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { applyMiddleware, combineReducers, compose } from "redux";
 import { burgerIngredientsReducer } from "./reducers/ingredients-reducer";
 import { ingredientDetailsReducer } from "./reducers/ingredient-details-reducer";
 import { burgerConstructorReducer } from "./reducers/constructor-reducer";
@@ -7,11 +7,15 @@ import { authReducer, returnUrlReducer, sendResetEmailReducer, resetPasswordRedu
 import { ActionCreator } from 'redux';
 import { TAddReturnUrlActions, TAuthActions, TResetPasswordActions, TSendResetEmailActions } from '../services/actions/auth-action';
 import {store} from '../index';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { TCurrentIngredientActions } from "./actions/constructor-action";
 import { TSelectIngredientAction } from "./actions/ingredient-details-action";
 import { TCounterIngredientActions } from "./actions/ingredients-action";
 import { TIngredient } from "../utils/types";
+import { TWSFeedActions, TWSOrdersActions } from '../services/actions/socket-actions'
+import { socketMiddleware } from '../utils/socket-middleware'
+import { WsFeedActions, WsOrdersActions } from '../services/actions/socket-actions'
+import { wsFeedReducer, wsOrdersReducer } from "./reducers/socket-reducer";
 
 export const rootReducer = combineReducers({
     burgerIngredients: burgerIngredientsReducer,
@@ -21,10 +25,21 @@ export const rootReducer = combineReducers({
     authReducer,
     returnUrlReducer,
     sendResetEmailReducer,
-    resetPasswordReducer
+    resetPasswordReducer,
+    wsFeedReducer,
+    wsOrdersReducer
 });
 
-type TAppActions = | TAddReturnUrlActions | TAuthActions | TResetPasswordActions | TSendResetEmailActions | TCounterIngredientActions | TSelectIngredientAction |  TCurrentIngredientActions
+const wsFeedUrl = 'wss://norma.nomoreparties.space/orders/all';
+const wsOrdersUrl = 'wss://norma.nomoreparties.space/orders';
+
+const composeEnhancers = (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
+export const enhancer = composeEnhancers(
+    applyMiddleware(thunk),
+    applyMiddleware(socketMiddleware(wsFeedUrl, WsFeedActions, false)),
+    applyMiddleware(socketMiddleware(wsOrdersUrl, WsOrdersActions, true)));
+
+type TAppActions = | TAddReturnUrlActions | TAuthActions | TResetPasswordActions | TSendResetEmailActions | TCounterIngredientActions | TSelectIngredientAction |  TCurrentIngredientActions| TWSFeedActions | TWSOrdersActions
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

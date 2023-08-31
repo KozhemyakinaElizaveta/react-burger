@@ -1,4 +1,4 @@
-import uniqid from 'uniqid';
+
 import { TIngredient, TCurIngredient } from '../../utils/types';
 
 export const ADD_BUN = "SELECT_BUN";
@@ -10,7 +10,7 @@ export const CLEAR_CONSTRUCTOR = "CLEAR_CONSTRUCTOR";
 
 export interface IAddCurrentIngredient {
     readonly type: typeof ADD_INGREDIENT;
-    readonly item: TCurIngredient;
+    readonly item: TIngredient;
     readonly ingredient?: TIngredient;
 }
 
@@ -43,11 +43,9 @@ export type TCurrentIngredientActions =
     | IClearConstructor;
 
 export const addIngredient = (ingredient: TIngredient): IAddCurrentIngredient => {
-    const key=uniqid();
     return {
     type: ADD_INGREDIENT,
-    item: {ingredient,
-    key}
+    item: ingredient
 }
 };
 

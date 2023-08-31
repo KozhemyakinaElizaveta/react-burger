@@ -4,13 +4,13 @@ import { NavLink, Link, useMatch } from 'react-router-dom';
 
 export const activePaths = {
     'home': [{ path: '/', exact: true }, { path: '/ingredients', exact: false }],
-    'ordersFeed': [{ path: '/orders-feed', exact: false }],
+    'feed': [{ path: '/feed', exact: false }],
     'profile': [{ path: '/profile', exact: false }]
 }
 
 function AppHeader() {
     const isConstructor = !!useMatch({ path: "/" });
-    const isFeed = !!useMatch("/orders-feed");
+    const isFeed = !!useMatch("/feed");
     const isProfile = !!useMatch("/profile");
 
     return (
@@ -22,7 +22,7 @@ function AppHeader() {
                         <p className={'text text_type_main-default ml-2'}>Конструктор</p>
                     </div>
                 </NavLink>
-                <NavLink to='/orders-feed' className={({isActive}) => `${styles.link} ${isActive ? styles.link_active : ""}`}>
+                <NavLink to='/feed' className={({isActive}) => `${styles.link} ${isActive ? styles.link_active : ""}`}>
                     <div className={`${styles.buttons} pl-5 pr-5 pb-4 pt-4`}>
                         <ListIcon type={isFeed ? "primary" : "secondary"} />
                         <p className='text text_type_main-default ml-2'>Лента заказов</p>

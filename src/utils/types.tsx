@@ -116,3 +116,20 @@ export type TIngredientsInitialState = {
 export type TConstructorItemsInitialState = {
     constructorIngredients: { bun: TIngredient | null, innerIngredients: Array<TIngredient> }
 }
+
+export type TFeedOrder = {
+    _id: string,
+    status: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    number: number,
+    ingredients: string[]
+}
+
+export type TFeedMessage = {
+    success: boolean
+    orders: TFeedOrder[]
+    total: number
+    totalToday: number
+}

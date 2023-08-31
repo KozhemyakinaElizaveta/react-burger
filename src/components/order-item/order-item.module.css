@@ -1,0 +1,94 @@
+.wrap {
+    border-radius: 40px;
+    width: 526px;
+    background-color: #1C1C21;
+}
+
+.flex_container {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+}
+
+.image_price_container {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    height: 64px;
+}
+
+.total_price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.ingredient_preview {
+    box-sizing: border-box;
+    border: 2px solid #801AB2;
+    position: relative;
+    width: 64px;
+    height: 64px;
+    left: 0px;
+    top: 0px;
+    text-align: center;
+    background: #131316;
+    border-radius: 100px;
+}
+
+.image {
+    position: relative;
+    width: 120px;
+    left: -30px;
+}
+
+.images_container {
+    position: relative;
+}
+
+.image-1 {
+    position: absolute;
+    z-index: 5;
+}
+
+.image-2 {
+    position: absolute;
+    left: 52px;
+    z-index: 4;
+}
+
+.image-3 {
+    position: absolute;
+    left: 104px;
+    z-index: 3;
+}
+
+.image-4 {
+    position: absolute;
+    left: 156px;
+    z-index: 2;
+}
+
+.image-5 {
+    position: absolute;
+    left: 208px;
+    z-index: 1;
+}
+
+.image-6 {
+    position: absolute;
+    left: 260px;
+    z-index: 0;
+}
+
+.counter {
+    position: absolute;
+    top: 18px;
+    left: 17px;
+    z-index: 1;
+}
+
+.done {
+    color: #00CCCC;
+}

@@ -33,7 +33,7 @@ export const refreshToken = <T extends TServerResponse>(): Promise<T> => {
         "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify({
-            token: localStorage.getItem("refreshToken"),
+            token: localStorage.getItem("burgerRefreshToken"),
         }),
     }
     return request<T>(`${BURGER_API_URL}/auth/token`, options);
@@ -48,8 +48,8 @@ export const fetchWithRefresh = async <T extends TServerResponse>(url: string, o
             if (!refreshData.success) {
             return Promise.reject(refreshData);
             }
-            localStorage.setItem("refreshToken", (refreshData as any).refreshToken);
-            localStorage.setItem("accessToken", (refreshData as any).accessToken);
+            localStorage.setItem("burgerRefreshToken", (refreshData as any).refreshToken);
+            localStorage.setItem("burgerAccessToken", (refreshData as any).accessToken);
             const optionsRefresh = {
             method: "POST",
             headers: {

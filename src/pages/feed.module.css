@@ -1,0 +1,25 @@
+.wrapper {
+    width: 1240px;
+    display: grid;
+    grid-template-columns: 590px 590px;
+    justify-content: space-between;
+}
+
+.all{
+    display: flex;
+    justify-content: center;
+}
+
+.stat_container {
+    display: flex;
+    flex-direction: row;
+}
+
+.ids_container {
+    display: flex;
+    flex-direction: row;
+}
+
+.done_id {
+    color: #00CCCC;
+}
