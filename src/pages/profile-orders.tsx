@@ -22,7 +22,7 @@ export function ProfileOrdersPage() {
     }
 
     return (
-        <div className='ml-15 mt-10'>
+        <div className='ml-15'>
             <OrdersList orders={orders} clickHandler={orderOnClick} />
         </div>
     )

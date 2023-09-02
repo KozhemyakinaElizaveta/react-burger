@@ -10,12 +10,17 @@ export const WS_ORDERS_CONNECTION_ERROR: 'WS_ORDERS_CONNECTION_ERROR' = 'WS_ORDE
 export const WS_ORDERS_CONNECTION_CLOSED: 'WS_ORDERS_CONNECTION_CLOSED' = 'WS_ORDERS_CONNECTION_CLOSED';
 export const WS_ORDERS_GET_MESSAGE: 'WS_ORDERS_GET_MESSAGE' = 'WS_ORDERS_GET_MESSAGE';
 
+export const WS_CONNECTING: 'WS_CONNECTING' = 'WS_CONNECTING';
+export const WS_CONNECTION_DISCONNECT: 'WS_CONNECTION_DISCONNECT' = 'WS_CONNECTION_DISCONNECT';
+
 export type TActionsType = {
     wsConnectionStart: typeof WS_FEED_CONNECTION_START | typeof WS_ORDERS_CONNECTION_START,
     wsConnectionSuccess: typeof WS_FEED_CONNECTION_SUCCESS | typeof WS_ORDERS_CONNECTION_SUCCESS,
     wsConnectionError: typeof WS_FEED_CONNECTION_ERROR | typeof WS_ORDERS_CONNECTION_ERROR,
     wsConnectionClosed: typeof WS_FEED_CONNECTION_CLOSED | typeof WS_ORDERS_CONNECTION_CLOSED,
-    wsGetMessage: typeof WS_FEED_GET_MESSAGE | typeof WS_ORDERS_GET_MESSAGE
+    wsGetMessage: typeof WS_FEED_GET_MESSAGE | typeof WS_ORDERS_GET_MESSAGE,
+    wsDisconnect: typeof WS_CONNECTION_DISCONNECT;
+    wsConnecting: typeof WS_CONNECTING;
 }
 
 export const WsFeedActions: TActionsType = {
@@ -23,7 +28,9 @@ export const WsFeedActions: TActionsType = {
     wsConnectionSuccess: WS_FEED_CONNECTION_SUCCESS,
     wsConnectionError: WS_FEED_CONNECTION_ERROR,
     wsConnectionClosed: WS_FEED_CONNECTION_CLOSED,
-    wsGetMessage: WS_FEED_GET_MESSAGE
+    wsGetMessage: WS_FEED_GET_MESSAGE,
+    wsDisconnect: WS_CONNECTION_DISCONNECT,
+    wsConnecting: WS_CONNECTING
 }
 
 export const WsOrdersActions: TActionsType = {
@@ -31,7 +38,9 @@ export const WsOrdersActions: TActionsType = {
     wsConnectionSuccess: WS_ORDERS_CONNECTION_SUCCESS,
     wsConnectionError: WS_ORDERS_CONNECTION_ERROR,
     wsConnectionClosed: WS_ORDERS_CONNECTION_CLOSED,
-    wsGetMessage: WS_ORDERS_GET_MESSAGE
+    wsGetMessage: WS_ORDERS_GET_MESSAGE,
+    wsDisconnect: WS_CONNECTION_DISCONNECT,
+    wsConnecting: WS_CONNECTING
 }
 
 export interface IWsFeedConnectionStart {
@@ -78,25 +87,49 @@ export interface IWsOrdersConnectionMessage {
     readonly payload: any;
 }
 
+export interface IWsConnecting {
+    readonly type: typeof WS_CONNECTING;
+}
+
+export interface IWsConnectionDisconnect {
+    readonly type: typeof WS_CONNECTION_DISCONNECT;
+}
+
 export type TWSFeedActions =
     | IWsFeedConnectionStart
     | IWsFeedConnectionError
     | IWsFeedConnectionSuccess
     | IWsFeedConnectionClosed
-    | IWsFeedConnectionMessage;
+    | IWsFeedConnectionMessage
+    | IWsConnecting
+    | IWsConnectionDisconnect;
 
 export type TWSOrdersActions =
     | IWsOrdersConnectionStart
     | IWsOrdersConnectionError
     | IWsOrdersConnectionSuccess
     | IWsOrdersConnectionClosed
-    | IWsOrdersConnectionMessage;
+    | IWsOrdersConnectionMessage
+    | IWsConnecting
+    | IWsConnectionDisconnect;
 
 export function wsFeedConnectionStart(): IWsFeedConnectionStart {
     return {
         type: WS_FEED_CONNECTION_START,
     }
 }
+
+export function wsDisconnectAction(): IWsConnectionDisconnect {
+    return {
+        type: WS_CONNECTION_DISCONNECT,
+    }
+};
+
+export function wsConnectingAction(): IWsConnecting {
+    return {
+        type: WS_CONNECTING,
+    }
+};
 
 export function wsFeedConnectionSuccess(): IWsFeedConnectionSuccess {
     return {

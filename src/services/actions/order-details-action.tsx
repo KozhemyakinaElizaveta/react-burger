@@ -44,9 +44,11 @@ export const createOrder: AppThunk = (orderItemsId) => {
         type: ORDER_REQUEST,
         });
 
-        request('orders', {
+        request("orders", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json", 
+            Authorization: String(localStorage.getItem("burgerAccessToken")) },
         body: JSON.stringify({
             ingredients: orderItemsId,
         }),

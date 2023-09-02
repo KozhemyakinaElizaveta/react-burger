@@ -48,7 +48,7 @@ export function ProfileAccountPage() {
     }, [user])
 
     return (<div className='ml-30'>
-        <div>
+        <form onSubmit={handleSaveClick}>
             <div>
                 <Input
                     placeholder={'Имя'}
@@ -83,8 +83,7 @@ export function ProfileAccountPage() {
                     <Button
                         htmlType="submit"
                         type="primary"
-                        size="large"
-                        onClick={handleSaveClick}>
+                        size="large">
                         Сохранить
                     </Button>
                 </div>
@@ -98,6 +97,6 @@ export function ProfileAccountPage() {
                     </Button>
                 </div>
             </div>}
-        </div>
+        </form>
     </div>)
 }
