@@ -3,13 +3,13 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { sendResetEmailThunk } from '../services/auth-thunk/auth-thunk';
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { getAuth } from '../services/store';
 
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('')
-    const dispatch = useDispatch()
-    //@ts-ignore
-    const { user, getUser } = useSelector(store => store.authReducer);
+    const dispatch = useAppDispatch()
+    const { user, getUser } = useAppSelector(getAuth);
     const navigate = useNavigate()
 
     if (getUser) {
@@ -28,7 +28,6 @@ export function ForgotPasswordPage() {
         if (!email) {
             return
         }
-        //@ts-ignore
         dispatch(sendResetEmailThunk({ email, callback: redirectToResetPassword }))
     }
 

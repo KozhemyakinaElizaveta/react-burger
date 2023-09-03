@@ -1,10 +1,10 @@
 import styles from './order-details.module.css';
 import done from '../../images/done.png';
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../../utils/hooks';
+import { getOrder } from '../../services/store';
 
 export function OrderDetails() {
-    //@ts-ignore
-    const { orderId } = useSelector((state) => state.orderDetails);
+    const { orderId } = useAppSelector(getOrder);
 
     return(
         <>

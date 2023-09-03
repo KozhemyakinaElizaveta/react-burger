@@ -9,11 +9,12 @@ import {
     selectIngredient,
 } from "../../services/actions/ingredient-details-action";
 import { TIngredient } from '../../utils/types';
+import { useAppSelector } from '../../utils/hooks';
+import { getBurgerIngredients } from '../../services/store';
 
 
 function BurgerIngredients() {
-    //@ts-ignore
-    const { ingredients } = useSelector((state) => state.burgerIngredients);
+    const { ingredients } = useAppSelector(getBurgerIngredients);
     const [current, setCurrent] = useState('bun')
 
     const navigate = useNavigate()

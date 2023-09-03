@@ -1,6 +1,5 @@
 import { IngredientCard } from "./ingredient-card";
 import { FillingCard } from "./filling-card";
-// import styles from "./card.module.css";
 import { TIngredient } from '../../utils/types';
 import { FC } from "react";
 
@@ -19,7 +18,7 @@ export const IngredientsCard: FC<TIngredientsCard> = ({ ingredients }) => {
         {ingredients.map((item, index) => {
             return (
             <div className="pt-2 pb-2 ml-2" >
-                <IngredientCard item={item.ingredient} index={index} key={item.key} />
+                <IngredientCard item={item} index={index} key={item.key} />
             </div>
             );
         })}

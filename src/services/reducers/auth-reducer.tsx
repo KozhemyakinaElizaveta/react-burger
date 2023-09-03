@@ -21,9 +21,11 @@ import {
     LOGOUT_FAILED,
     LOGOUT_SUCCESS,
     ADD_RETURN_URL
-} from '../actions/auth-action'
+} from '../actions/auth-action';
+import { TAuthInitialState, TResetPasswordInitialState, TSendResetEmailInitialState, TReturnUrlInitialState } from '../../utils/types';
+import { TAddReturnUrlActions, TSendResetEmailActions, TResetPasswordActions, TAuthActions } from '../actions/auth-action';
 
-const authInitialState = {
+const authInitialState: TAuthInitialState = {
     user: null,
     register: false,
     registerFailed: false,
@@ -42,23 +44,23 @@ const authInitialState = {
     patchUserFailed: false
 }
 
-const resetPasswordInitialState = {
+const resetPasswordInitialState: TResetPasswordInitialState = {
     resetPassword: false,
     resetPasswordFailed: false,
     resetPasswordSuccess: false
 }
 
-const sendResetEmailInitialState = {
+const sendResetEmailInitialState: TSendResetEmailInitialState = {
     sendResetEmail: false,
     sendResetEmailFailed: false,
     sendResetEmailSuccess: false
 }
 
-const returnUrlInitialState = {
+const returnUrlInitialState: TReturnUrlInitialState = {
     url: ''
 }
 
-export const returnUrlReducer = (state = returnUrlInitialState, action) => {
+export const returnUrlReducer = (state = returnUrlInitialState, action: TAddReturnUrlActions): TReturnUrlInitialState => {
     switch (action.type) {
         case ADD_RETURN_URL:
             return {
@@ -69,7 +71,7 @@ export const returnUrlReducer = (state = returnUrlInitialState, action) => {
     }
 }
 
-export const sendResetEmailReducer = (state = sendResetEmailInitialState, action) => {
+export const sendResetEmailReducer = (state = sendResetEmailInitialState, action: TSendResetEmailActions): TSendResetEmailInitialState => {
     switch (action.type) {
         case SEND_RESET_EMAIL_SUCCESS:
             return {
@@ -86,7 +88,7 @@ export const sendResetEmailReducer = (state = sendResetEmailInitialState, action
         case SEND_RESET_EMAIL_FAILED:
             return {
                 sendResetEmail: false,
-                sendResetEmailtFailed: true,
+                sendResetEmailFailed: true,
                 sendResetEmailSuccess: false
             }
         default:
@@ -94,7 +96,7 @@ export const sendResetEmailReducer = (state = sendResetEmailInitialState, action
     }
 }
 
-export const resetPasswordReducer = (state = resetPasswordInitialState, action) => {
+export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordActions): TResetPasswordInitialState => {
     switch (action.type) {
         case RESET_PASSWORD_SUCCESS:
             return {
@@ -119,7 +121,7 @@ export const resetPasswordReducer = (state = resetPasswordInitialState, action) 
     }
 }
 
-export const authReducer = (state = authInitialState, action) => {
+export const authReducer = (state = authInitialState, action: TAuthActions): TAuthInitialState => {
     switch (action.type) {
         case REGISTER_SUCCESS:
             return {

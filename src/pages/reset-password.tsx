@@ -3,24 +3,22 @@ import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burg
 import { useState } from 'react'
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordThunk } from '../services/auth-thunk/auth-thunk';
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { getAuth, getResetEmail } from '../services/store';
 
 export function ResetPasswordPage() {
     const [password, setPassword] = useState('')
     const [token, setToken] = useState('')
-    //@ts-ignore
-    const { user, getUser } = useSelector(store => store.authReducer);
-    //@ts-ignore
-    const { sendResetEmailSuccess } = useSelector((store) => store.sendResetEmailReducer)
+    const { user, getUser } = useAppSelector(getAuth);
+    const { sendResetEmailSuccess } = useAppSelector(getResetEmail)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const handleResetPasswordSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         if (!password || !token) {
             return
         }
-        //@ts-ignore
         dispatch(resetPasswordThunk({ password, token }))
     }
     if (getUser) {

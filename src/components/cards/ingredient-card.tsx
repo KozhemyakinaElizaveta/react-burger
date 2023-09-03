@@ -10,6 +10,7 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import styles from "./card.module.css";
 import {removeIngredientCounter} from "../../services/actions/ingredients-action";
 import { TIngredient } from "../../utils/types";
+import { useAppDispatch } from "../../utils/hooks";
 
 type TIngredientCard = {
     item: TIngredient,
@@ -24,7 +25,7 @@ type TDragItem = {
 export const IngredientCard: FC<TIngredientCard> = ({ item, index }) => {
     const { name, price, image, _id } = item;
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const ref = useRef<HTMLInputElement>(null);
 
     const [{ isDragging }, dragRef] = useDrag({
@@ -73,8 +74,7 @@ export const IngredientCard: FC<TIngredientCard> = ({ item, index }) => {
 
     dragRef(dropRef(ref));
 
-    //@ts-ignore
-    const onClose = (item, index, _id) => {
+    const onClose = (item: TIngredient, index: number, _id: string) => {
         dispatch(removeIngredient(item, index));
         dispatch(removeIngredientCounter(_id));
     };

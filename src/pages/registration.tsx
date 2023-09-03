@@ -3,22 +3,21 @@ import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burg
 import { useState } from 'react'
 import { Link, Navigate } from "react-router-dom";
 import { registerThunk } from '../services/auth-thunk/auth-thunk'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { getAuth } from '../services/store';
 
 export function RegisterPage() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const dispatch = useDispatch()
-    //@ts-ignore
-    const { user, getUser } = useSelector(store => store.authReducer);
+    const dispatch = useAppDispatch()
+    const { user, getUser } = useAppSelector(getAuth);
 
     const handleRegisterSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         if (!name || !email || !password) {
             return
         }
-        //@ts-ignore
         dispatch(registerThunk({ name, email, password }))
     }
     if (getUser) {

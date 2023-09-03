@@ -1,14 +1,13 @@
 import styles from './profile.module.css';
-import { NavLink, Outlet } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
-import { logoutThunk } from '../services/auth-thunk/auth-thunk'
+import { NavLink, Outlet } from 'react-router-dom';
+import { logoutThunk } from '../services/auth-thunk/auth-thunk';
+import { useAppDispatch } from '../utils/hooks';
 
 export function ProfilePage() {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const handleLogoutClick = () => {
-        //@ts-ignore
         dispatch(logoutThunk())
     }
 

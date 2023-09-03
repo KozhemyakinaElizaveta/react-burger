@@ -4,8 +4,7 @@ import {useMemo} from "react";
 import { useDrop } from "react-dnd";
 import { BunCard } from '../cards/buns-card';
 import { IngredientsCard } from '../cards/igredients-card';
-
-import { useDispatch, useSelector } from "react-redux";
+import { ProgressBar } from 'react-loader-spinner'
 import {
     INGREDIENT_CARD,
     ADD_BUN_COUNTER,
@@ -20,34 +19,25 @@ import { OrderDetails } from "../order-details/order-details";
 import { useNavigate } from 'react-router-dom';
 import { addReturnUrl } from '../../services/actions/auth-action';
 import { TIngredient } from '../../utils/types';
+import { useAppSelector, useAppDispatch } from '../../utils/hooks';
+import { getAuth, getOrderDetails, getOpenModal, getConstructorIngredients, getConstructor } from '../../services/store'
 
 function BurgerConstructor() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    //@ts-ignore
-    const { user } = useSelector(store => store.authReducer);
+    const { user } = useAppSelector(getAuth);
 
-    const orderDetailsModal = useSelector(
-        //@ts-ignore
-        (state) => state.orderDetails.openModal
-    );
+    const orderDetailsModal = useAppSelector(getOpenModal);
 
-    const REQUEST = useSelector(
-        //@ts-ignore
-        (state) => state.orderDetails.makeOrderRequestInProgress
-    );
+    const REQUEST = useAppSelector(getOrderDetails);
 
     function closeOrderDetailsModal() {
         dispatch({ type: CLOSE_ORDER_DETAILS_MODAL });
     }
 
-    const ingredients = useSelector(
-        //@ts-ignore
-        (state) => state.burgerConstructor.ingredients
-    );
+    const ingredients = useAppSelector(getConstructorIngredients);
 
-    //@ts-ignore
-    const { bunIngredient } = useSelector((state) => state.burgerConstructor);
+    const { bunIngredient } = useAppSelector(getConstructor);
 
     const Top = "top";
 
@@ -105,13 +95,11 @@ function BurgerConstructor() {
             ...ingredients.map((ingredient: TIngredient) => ingredient._id),
             bunIngredient._id,
         ];
-        //@ts-ignore
         dispatch(createOrder(orderIngredientIds));
     }
 
     return (
         <div className={styles.final} ref={dropTargetRef}>
-        {REQUEST && <div className={styles.note}>Загрузка...</div>}
             <div className={styles.construct}>
                 {bunIngredient && (
                     <div className={`${styles.element_bun} ml-8`}>
@@ -146,9 +134,11 @@ function BurgerConstructor() {
                     <p className="text text_type_digits-medium mr-1">{orderAmount}</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button disabled={!bunIngredient} htmlType="button" type="primary" size="medium" onClick={handlePlaceOrder} >
-                Оформить заказ
-                </Button>
+                {REQUEST ? <ProgressBar /> :
+                    <Button disabled={!bunIngredient} htmlType="button" type="primary" size="medium" onClick={handlePlaceOrder} >
+                    Оформить заказ
+                    </Button>
+                }
             </section>
             {orderDetailsModal && <Modal onClose={closeOrderDetailsModal}>
                 <OrderDetails />

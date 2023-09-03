@@ -1,13 +1,19 @@
 import {
     NO_INGREDIENT,
     INGREDIENT,
+    TSelectIngredientAction,
 } from "../actions/ingredient-details-action";
+import { TIngredient } from '../../utils/types';
 
-const initialState = {
+type TInitialState = {
+    ingredient: TIngredient | null;
+}
+
+const initialState: TInitialState = {
     ingredient: null
 };
 
-export const ingredientDetailsReducer = (state = initialState, action) => {
+export const ingredientDetailsReducer = (state = initialState, action: TSelectIngredientAction): TInitialState => {
     switch (action.type) {
         case INGREDIENT: {
             return {

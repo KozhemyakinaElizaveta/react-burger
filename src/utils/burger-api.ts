@@ -1,18 +1,21 @@
 import { getItem} from './local-storage';
 import {BURGER_API_URL} from './const';
-import { TUserData, TLoginData, TResetEmailData, TResetData, TPatchUserData,  TFetchRes, TFetchResJson, TFetchOptions } from '../utils/types';
+import { TUserData, TLoginData, TResetEmailData, TResetData, TPatchUserData,  TFetchRes, TFetchResJson, TFetchOptions, TOrder } from '../utils/types';
 
 type TServerResponse = {
     success: boolean,
     refreshToken?: string,
-    accessToken?: string
+    accessToken?: string,
+    user?: any,
+    data?: any,
+    order: TOrder
 };
 
 const checkResponse = <T>(res: Response): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const request = <T extends TServerResponse>(url: string, options: RequestInit): Promise<T> => {
+export const request = <T extends TServerResponse>(url: string, options?: RequestInit): Promise<T> => {
     return fetch(BURGER_API_URL + url, options)
         .then((res) => checkResponse<T>(res))
         .then((data) => {
@@ -30,7 +33,7 @@ export const refreshToken = <T extends TServerResponse>(): Promise<T> => {
         "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify({
-            token: localStorage.getItem("refreshToken"),
+            token: localStorage.getItem("burgerRefreshToken"),
         }),
     }
     return request<T>(`${BURGER_API_URL}/auth/token`, options);
@@ -45,8 +48,8 @@ export const fetchWithRefresh = async <T extends TServerResponse>(url: string, o
             if (!refreshData.success) {
             return Promise.reject(refreshData);
             }
-            localStorage.setItem("refreshToken", (refreshData as any).refreshToken);
-            localStorage.setItem("accessToken", (refreshData as any).accessToken);
+            localStorage.setItem("burgerRefreshToken", (refreshData as any).refreshToken);
+            localStorage.setItem("burgerAccessToken", (refreshData as any).accessToken);
             const optionsRefresh = {
             method: "POST",
             headers: {
