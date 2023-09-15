@@ -80,7 +80,7 @@ export type TAuthInitialState = {
     registerSuccess: boolean;
     login: boolean;
     loginFailed: boolean;
-    loginSoccess: boolean;
+    loginSuccess: boolean;
     logout: boolean;
     logoutFailed: boolean;
     logoutSuccess: boolean;

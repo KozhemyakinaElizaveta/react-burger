@@ -100,42 +100,42 @@ function BurgerIngredients() {
 
     return (
         <div className={styles.container}>
-        <div className={styles.tab} ref={tabRef}>
-            <Tab value="bun" active={activeTab() === 1} onClick={handleTabClick}>
-            Булки
-            </Tab>
-            <Tab value="sauce" active={activeTab() === 2} onClick={handleTabClick}>
-            Соусы
-            </Tab>
-            <Tab value="main" active={activeTab() === 3} onClick={handleTabClick}>
-            Начинки
-            </Tab>
-        </div>
-        <section className={styles.scroll} onScroll={handleScroll}>
-            <div className={styles.items_category}>
-                <BurgerItemsCategory 
-                    title = 'Булки'
-                    ingredients = {buns}
-                    onClick = {openIngredientModal}
-                    tabRef = {refBuns}
-                    ref={bunRef}
-                />
-                <BurgerItemsCategory 
-                    title = 'Соусы'
-                    ingredients = {sauces}
-                    onClick = {openIngredientModal}
-                    tabRef = {refSauces}
-                    ref={sauceRef}
-                />
-                <BurgerItemsCategory 
-                    title = 'Начинки'
-                    ingredients = {mains}
-                    onClick = {openIngredientModal}
-                    tabRef = {refMains}
-                    ref={mainRef}
-                />
+            <div className={styles.tab} ref={tabRef}>
+                <Tab value="bun" active={activeTab() === 1} onClick={handleTabClick}>
+                Булки
+                </Tab>
+                <Tab value="sauce" active={activeTab() === 2} onClick={handleTabClick}>
+                Соусы
+                </Tab>
+                <Tab value="main" active={activeTab() === 3} onClick={handleTabClick}>
+                Начинки
+                </Tab>
             </div>
-        </section>
+            <section className={styles.scroll} onScroll={handleScroll}>
+                <div className={styles.items_category}>
+                    <BurgerItemsCategory 
+                        title = 'Булки'
+                        ingredients = {buns}
+                        onClick = {openIngredientModal}
+                        tabRef = {refBuns}
+                        ref={bunRef}
+                    />
+                    <BurgerItemsCategory 
+                        title = 'Соусы'
+                        ingredients = {sauces}
+                        onClick = {openIngredientModal}
+                        tabRef = {refSauces}
+                        ref={sauceRef}
+                    />
+                    <BurgerItemsCategory 
+                        title = 'Начинки'
+                        ingredients = {mains}
+                        onClick = {openIngredientModal}
+                        tabRef = {refMains}
+                        ref={mainRef}
+                    />
+                </div>
+            </section>
         </div>
     );
 }

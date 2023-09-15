@@ -33,8 +33,8 @@ const ordersInitialState: TWSOrdersInitialState = {
     message: { success: false, orders: [], total: 0, totalToday: 0 }
 };
 
-export const wsFeedReducer = (state = feedInitialState, action: TWSFeedActions): TWSFeedInitialState => {
-    switch (action.type) {
+export const wsFeedReducer = (state = feedInitialState, action: TWSFeedActions | undefined): TWSFeedInitialState => {
+    switch (action?.type) {
         case WS_FEED_CONNECTION_SUCCESS:
             return {
                 ...state,
@@ -64,8 +64,8 @@ export const wsFeedReducer = (state = feedInitialState, action: TWSFeedActions):
     }
 };
 
-export const wsOrdersReducer = (state = ordersInitialState, action: TWSOrdersActions): TWSOrdersInitialState => {
-    switch (action.type) {
+export const wsOrdersReducer = (state = ordersInitialState, action: TWSOrdersActions | undefined): TWSOrdersInitialState => {
+    switch (action?.type) {
         case WS_ORDERS_CONNECTION_SUCCESS:
             return {
                 ...state,
