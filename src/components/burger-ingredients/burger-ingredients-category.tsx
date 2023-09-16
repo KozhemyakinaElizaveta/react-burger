@@ -18,7 +18,7 @@ const BurgerItemsCategory = forwardRef<Ref, Props>(
     return (
         <div className={styles.items_content}>
             <h2 ref={ref} className={`${styles.title} text text_type_main-medium mt-10`}>{title}</h2>
-            <div className={styles.items} ref={tabRef}>
+            <div className={styles.items + ' buns'} ref={tabRef}>
                 {ingredients.map(ingredient => (
                     <BurgerIngredientsItem key={ingredient._id} ingredient={ingredient} onClick={onClick}/>
                 ))}

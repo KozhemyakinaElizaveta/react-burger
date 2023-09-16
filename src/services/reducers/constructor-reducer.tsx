@@ -8,13 +8,13 @@ import {
 } from "../actions/constructor-action";
 import { TIngredientsInitialState } from '../../utils/types';
 
-const initialState: TIngredientsInitialState = {
+export const constructorInitialState: TIngredientsInitialState = {
     ingredients: [],
     bunIngredient: null,
 };
 
-export const burgerConstructorReducer = (state = initialState, action: TCurrentIngredientActions): TIngredientsInitialState => {
-    switch (action.type) {
+export const burgerConstructorReducer = (state = constructorInitialState, action: TCurrentIngredientActions | undefined): TIngredientsInitialState => {
+    switch (action?.type) {
     case ADD_BUN: {
         return {
         ...state,

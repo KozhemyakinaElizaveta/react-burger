@@ -102,7 +102,7 @@ function BurgerConstructor() {
         <div className={styles.final} ref={dropTargetRef}>
             <div className={styles.construct}>
                 {bunIngredient && (
-                    <div className={`${styles.element_bun} ml-8`}>
+                    <div className={`${styles.element_bun} ml-8` + ' drag_target'}>
                         <ConstructorElement 
                         text={`${bunIngredient.name} (верх)`}
                         price={bunIngredient.price}
@@ -135,9 +135,11 @@ function BurgerConstructor() {
                     <CurrencyIcon type="primary" />
                 </div>
                 {REQUEST ? <ProgressBar /> :
-                    <Button disabled={!bunIngredient} htmlType="button" type="primary" size="medium" onClick={handlePlaceOrder} >
-                    Оформить заказ
-                    </Button>
+                    <div className='order_button'>
+                        <Button disabled={!bunIngredient} htmlType="button" type="primary" size="medium" onClick={handlePlaceOrder} >
+                        Оформить заказ
+                        </Button>
+                    </div>
                 }
             </section>
             {orderDetailsModal && <Modal onClose={closeOrderDetailsModal}>

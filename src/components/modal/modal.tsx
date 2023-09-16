@@ -37,7 +37,7 @@ export const Modal: React.FC<PropsWithChildren<T1>> = ({ children, onClose, titl
         <ModalOverlay onClick ={closeModal}/>
         <div className={styles.modal_container}>
             <div className={styles.modal_content}>
-                <div className={`${styles.button} mr-10 mt-10 ml-10`}>
+                <div className={`${styles.button} mr-10 mt-10 ml-10` } >
                     {title &&<h2 className={`${styles.text} text text_type_main-large`}>{title}</h2>}
                     <div className={styles.icon}>
                         <CloseIcon type="primary" onClick={onClose}/>

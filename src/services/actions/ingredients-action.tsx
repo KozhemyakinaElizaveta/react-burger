@@ -32,7 +32,7 @@ export interface ISuccess {
 
 export interface IAddCounter {
     readonly type: typeof ADD_INGREDIENT_COUNTER;
-    readonly _id: string;
+    readonly _id: string | void[];
 }
 
 export interface IAddBunCounter {

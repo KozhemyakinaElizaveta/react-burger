@@ -21,19 +21,19 @@ export function IngredientDetails() {
             <div className={styles.contain}>
                 <div className= {`${styles.value} mr-5`}>
                     <span className='text text_type_main-default text_color_inactive'>Калории, ккал</span>
-                    <span className='text text_type_digits-default text_color_inactive'>{calories}</span>
+                    <span className='text text_type_digits-default text_color_inactive calories'>{calories}</span>
                 </div>
                 <div className={`${styles.value} mr-5`}>
                     <span className='text text_type_main-default text_color_inactive'>Белки, г</span>
-                    <span className='text text_type_digits-default text_color_inactive'>{proteins}</span>
+                    <span className='text text_type_digits-default text_color_inactive proteins'>{proteins}</span>
                 </div>
                 <div className={`${styles.value} mr-5`}>
                     <span className='text text_type_main-default text_color_inactive'>Жиры, г</span>
-                    <span className='text text_type_digits-default text_color_inactive'>{fat}</span>
+                    <span className='text text_type_digits-default text_color_inactive fat'>{fat}</span>
                 </div>
                 <div className={styles.value}>
                     <span className='text text_type_main-default text_color_inactive'>Углеводы, г</span>
-                    <span className='text text_type_digits-default text_color_inactive'>{carbohydrates}</span>
+                    <span className='text text_type_digits-default text_color_inactive carbohydrates'>{carbohydrates}</span>
                 </div>
             </div>
         </div>
