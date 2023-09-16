@@ -31,17 +31,17 @@ describe('template spec', () => {
 
         cy.get('.buns > div').should("exist");
         cy.get('.buns > div').eq(0).trigger("dragstart");
-        cy.get('[class^=burger-constructor_final]').should("exist");
-        cy.get('[class^=burger-constructor_final]').trigger("drop");
+        cy.get(testIds.constructorContainer).should("exist");
+        cy.get(testIds.constructorContainer).trigger("drop");
 
         cy.get('.buns > div').eq(3).trigger("dragstart");
-        cy.get('[class^=burger-constructor_final]').trigger("drop");
+        cy.get(testIds.constructorContainer).trigger("drop");
 
         cy.get('.buns > div').eq(6).trigger("dragstart");
-        cy.get('[class^=burger-constructor_final]').trigger("drop");
+        cy.get(testIds.constructorContainer).trigger("drop");
 
         cy.get('.buns > div').eq(10).trigger("dragstart");
-        cy.get('[class^=burger-constructor_final]').trigger("drop");
+        cy.get(testIds.constructorContainer).trigger("drop");
 
         cy.get('.order_button').click()
         cy.get('[class^=modal_modal_content]').should("be.visible");
@@ -51,3 +51,7 @@ describe('template spec', () => {
 
     });
 })
+
+const testIds = {
+    constructorContainer: '[class^=burger-constructor_final]',
+}
