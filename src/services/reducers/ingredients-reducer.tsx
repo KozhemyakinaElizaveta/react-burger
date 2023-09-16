@@ -16,14 +16,14 @@ type TInitialState = {
     fetchIngredientsError: boolean;
 }
 
-const initialState: TInitialState = {
+export const ingredientsInitialState: TInitialState = {
     ingredients: [],
     fetchIngredientsRequest: false,
     fetchIngredientsError: false,
 };
 
-export const burgerIngredientsReducer = (state = initialState, action: TCounterIngredientActions): TInitialState => {
-switch (action.type) {
+export const burgerIngredientsReducer = (state = ingredientsInitialState, action: TCounterIngredientActions | undefined): TInitialState => {
+switch (action?.type) {
     case INGREDIENTS_REQUEST: {
     return {
         ...state,

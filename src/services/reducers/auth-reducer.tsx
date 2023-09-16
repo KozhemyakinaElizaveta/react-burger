@@ -32,7 +32,7 @@ const authInitialState: TAuthInitialState = {
     registerSuccess: false,
     login: false,
     loginFailed: false,
-    loginSoccess: false,
+    loginSuccess: false,
     logout: false,
     logoutFailed: false,
     logoutSuccess: false,
@@ -60,8 +60,8 @@ const returnUrlInitialState: TReturnUrlInitialState = {
     url: ''
 }
 
-export const returnUrlReducer = (state = returnUrlInitialState, action: TAddReturnUrlActions): TReturnUrlInitialState => {
-    switch (action.type) {
+export const returnUrlReducer = (state = returnUrlInitialState, action: TAddReturnUrlActions | undefined): TReturnUrlInitialState => {
+    switch (action?.type) {
         case ADD_RETURN_URL:
             return {
                 url: action.payload
@@ -71,8 +71,8 @@ export const returnUrlReducer = (state = returnUrlInitialState, action: TAddRetu
     }
 }
 
-export const sendResetEmailReducer = (state = sendResetEmailInitialState, action: TSendResetEmailActions): TSendResetEmailInitialState => {
-    switch (action.type) {
+export const sendResetEmailReducer = (state = sendResetEmailInitialState, action: TSendResetEmailActions | undefined): TSendResetEmailInitialState => {
+    switch (action?.type) {
         case SEND_RESET_EMAIL_SUCCESS:
             return {
                 sendResetEmail: false,
@@ -96,8 +96,8 @@ export const sendResetEmailReducer = (state = sendResetEmailInitialState, action
     }
 }
 
-export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordActions): TResetPasswordInitialState => {
-    switch (action.type) {
+export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordActions | undefined): TResetPasswordInitialState => {
+    switch (action?.type) {
         case RESET_PASSWORD_SUCCESS:
             return {
                 resetPassword: false,
@@ -121,8 +121,8 @@ export const resetPasswordReducer = (state = resetPasswordInitialState, action: 
     }
 }
 
-export const authReducer = (state = authInitialState, action: TAuthActions): TAuthInitialState => {
-    switch (action.type) {
+export const authReducer = (state = authInitialState, action: TAuthActions | undefined): TAuthInitialState => {
+    switch (action?.type) {
         case REGISTER_SUCCESS:
             return {
                 ...state,
@@ -149,21 +149,21 @@ export const authReducer = (state = authInitialState, action: TAuthActions): TAu
             return {
                 ...state,
                 user: action.payload.user,
-                loginSoccess: true,
+                loginSuccess: true,
                 login: false,
                 loginFailed: false
             }
         case LOGIN:
             return {
                 ...state,
-                loginSoccess: false,
+                loginSuccess: false,
                 login: true,
                 loginFailed: false
             }
         case LOGIN_FAILED:
             return {
                 ...state,
-                loginSoccess: false,
+                loginSuccess: false,
                 login: false,
                 loginFailed: true
             }

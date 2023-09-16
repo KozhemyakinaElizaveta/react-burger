@@ -44,9 +44,9 @@ export const socketMiddleware = (wsUrl: string, wsActions: TActionsType, withTok
 
             socket.onclose = event => {
 
-                // if (event.code !== 1000) {
-                //     dispatch({ type: wsConnectionError, payload: event });
-                // }
+                if (event.code !== 1000) {
+                    dispatch({ type: wsConnectionError, payload: event });
+                }
                 if (isConnected) {
                     dispatch({ type: wsConnecting });
                     reconnectTimerRef = window.setTimeout(() => {

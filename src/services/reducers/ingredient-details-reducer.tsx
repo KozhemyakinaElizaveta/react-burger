@@ -9,12 +9,12 @@ type TInitialState = {
     ingredient: TIngredient | null;
 }
 
-const initialState: TInitialState = {
+export const detailsInitialState: TInitialState = {
     ingredient: null
 };
 
-export const ingredientDetailsReducer = (state = initialState, action: TSelectIngredientAction): TInitialState => {
-    switch (action.type) {
+export const ingredientDetailsReducer = (state = detailsInitialState, action: TSelectIngredientAction | undefined): TInitialState => {
+    switch (action?.type) {
         case INGREDIENT: {
             return {
             ...state,

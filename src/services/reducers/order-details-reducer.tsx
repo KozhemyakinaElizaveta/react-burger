@@ -14,15 +14,15 @@ type TInitialState = {
     orderId: string;
 }
 
-const initialState: TInitialState = {
+export const orderInitialState: TInitialState = {
     orderId: "",
     makeOrderRequestInProgress: false,
     makeOrderRequestFailed: false,
     openModal: false
 };
 
-export const orderDetailsReducer = (state = initialState, action: TOrderActions): TInitialState => {
-    switch (action.type) {
+export const orderDetailsReducer = (state = orderInitialState, action: TOrderActions | undefined): TInitialState => {
+    switch (action?.type) {
         case ORDER_REQUEST: {
         return {
             ...state,
